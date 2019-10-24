@@ -6,7 +6,7 @@ import { NativeScriptRouterModule } from "nativescript-angular/router";
 const routes: Routes = [
     {
         path: "",
-        redirectTo: "/(transactionsTab:transactions/default//overviewTab:overview/default//searchTab:search/default)",
+        redirectTo: "/(transactionsTab:transactions/default//overviewTab:overview/default//walletsTab:wallets/default)",
         pathMatch: "full"
     },
 
@@ -23,10 +23,10 @@ const routes: Routes = [
         outlet: "overviewTab"
     },
     {
-        path: "search",
+        path: "wallets",
         component: NSEmptyOutletComponent,
-        loadChildren: () => import("~/app/search/search.module").then((m) => m.SearchModule),
-        outlet: "searchTab"
+        loadChildren: () => import("~/app/wallets/wallets.module").then((m) => m.WalletsModule),
+        outlet: "walletsTab"
     }
 ];
 

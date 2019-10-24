@@ -1,14 +1,15 @@
 import { Component, OnInit } from "@angular/core";
 import { ActivatedRoute } from "@angular/router";
 import { RouterExtensions } from "nativescript-angular/router";
-import { DataService, IDataItem } from "../../shared/data.service";
+import { DataService, ITransaction } from "../../shared/data.service";
+import { Observable } from "rxjs";
 
 @Component({
     selector: "ItemDetail",
     templateUrl: "./item-detail.component.html"
 })
 export class ItemDetailComponent implements OnInit {
-    item: IDataItem;
+    item: Observable<ITransaction>;
 
     constructor(
         private _data: DataService,
@@ -18,7 +19,7 @@ export class ItemDetailComponent implements OnInit {
 
     ngOnInit(): void {
         const id = +this._route.snapshot.params.id;
-        this.item = this._data.getItem(id);
+        this.item = this._data.get(id);
     }
 
     onBackTap(): void {

@@ -6,12 +6,12 @@
     "defaultCollection": "@nativescript/schematics"
   },
   "projects": {
-    "tab-navigation": {
+    "ns-money-tracker": {
       "root": "",
       "sourceRoot": "src",
       "projectType": "application",
       "prefix": "ns"
     }
   },
-  "defaultProject": "tab-navigation"
+  "defaultProject": "ns-money-tracker"
 }

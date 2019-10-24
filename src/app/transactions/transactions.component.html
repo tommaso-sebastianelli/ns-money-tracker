@@ -2,10 +2,31 @@
     <Label class="action-bar-title" text="Transactions"></Label>
 </ActionBar>
 
-<GridLayout class="page page-content">
-    <ListView [items]="items" class="list-group">
-        <ng-template let-item="item">
-            <Label [nsRouterLink]="['../item', item.id]" [text]="item.name" class="list-group-item"></Label>
-        </ng-template>
-    </ListView>
-</GridLayout>
+<TabView height="100%" loaded="onLoaded" [selectedIndex]="tabSelectedIndex"
+    (selectedIndexChanged)="onSelectedIndexChanged($event)">
+    <StackLayout *tabItem="{title: calendarService.snapshot.previous | date : 'MMMM'}">
+    </StackLayout>
+    <StackLayout *tabItem="{title: calendarService.snapshot.now | date : 'MMMM'}">
+        <GridLayout class="page page-content">
+            <ListView [items]="items | async" class="list-group">
+                <ng-template let-item="item">
+                    <FlexboxLayout flexDirection="row" alignItems="center" class="list-group-item">
+                        <!-- <Image row="0" col="0" class="thumb img-circle" stretch="none"></Image> -->
+                        <Label class="icon item" flexGrow="0" row="0" col="1" text="$"></Label>
+                        <!-- <Label class="item" ccflexGrow="1" row="0" col="1" [text]="item.categoryName"></Label> -->
+                        <FlexboxLayout class="item item-group" flexDirection="column">
+                            <Label class="sub-item heading" ccflexGrow="1" row="0" col="1"
+                                [text]="item.categoryName"></Label>
+                            <Label class="sub-item sub-heading" *ngIf="item.notes && item.notes.length" ccflexGrow="1"
+                                flexShrink="1" row="0" col="1" [text]="item.notes"></Label>
+                        </FlexboxLayout>>
+                        <Label class="amount item text-right" flexGrow="1" row="0" col="1"
+                            [text]="item.amount | currency"></Label>
+                    </FlexboxLayout>
+                </ng-template>
+            </ListView>
+        </GridLayout>
+    </StackLayout>
+    <StackLayout *tabItem="{title: calendarService.snapshot.next | date : 'MMMM'}">
+    </StackLayout>
+</TabView>
