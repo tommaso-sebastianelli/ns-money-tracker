@@ -1,32 +1,35 @@
 <ActionBar class="action-bar">
     <Label class="action-bar-title" text="Transactions"></Label>
 </ActionBar>
+<StackLayout class="input-field">
+    <GridLayout columns="*, *, *" class="timeline text-center" orientation="horizontal" height="30"
+        backgroundColor="lightgray">
+        <Label #prev row="0" col="0" verticalAlignment="center"
+            [text]="calendarService.snapshot.previous | date : 'MMM yyyy'" class="label"></Label>
+        <Label #now row="0" col="1" verticalAlignment="center" [text]="calendarService.snapshot.now | date : 'MMM yyyy'"
+            class="label now"></Label>
+        <Label #next row="0" col="2" verticalAlignment="center"
+            [text]="calendarService.snapshot.next | date : 'MMM yyyy'" class="label"></Label>
+    </GridLayout>
+    <GridLayout class="page page-content">
+        <ListView [items]="transactions | async" class="list-group" (swipe)="onSwipe($event)">
+            <ng-template let-item="item">
+                <FlexboxLayout flexDirection="row" alignItems="center" class="list-group-item">
+                    <Label class="icon item" flexGrow="0" row="0" col="1" text="$"></Label>
+                    <FlexboxLayout class="item item-group" flexDirection="column">
+                        <Label class="sub-item heading" ccflexGrow="1" row="0" col="1"
+                            [text]="item.categoryName"></Label>
+                        <Label class="sub-item sub-heading" *ngIf="item.notes && item.notes.length" ccflexGrow="1"
+                            flexShrink="1" row="0" col="1" [text]="item.notes"></Label>
+                    </FlexboxLayout>>
+                    <Label class="amount item text-right" flexGrow="1" row="0" col="1"
+                        [text]="item.amount | currency"></Label>
+                </FlexboxLayout>
+            </ng-template>
+        </ListView>
+    </GridLayout>
+</StackLayout>
 
-<TabView height="100%" loaded="onLoaded" [selectedIndex]="tabSelectedIndex"
-    (selectedIndexChanged)="onSelectedIndexChanged($event)">
-    <StackLayout *tabItem="{title: calendarService.snapshot.previous | date : 'MMMM'}">
-    </StackLayout>
-    <StackLayout *tabItem="{title: calendarService.snapshot.now | date : 'MMMM'}">
-        <GridLayout class="page page-content">
-            <ListView [items]="items | async" class="list-group">
-                <ng-template let-item="item">
-                    <FlexboxLayout flexDirection="row" alignItems="center" class="list-group-item">
-                        <!-- <Image row="0" col="0" class="thumb img-circle" stretch="none"></Image> -->
-                        <Label class="icon item" flexGrow="0" row="0" col="1" text="$"></Label>
-                        <!-- <Label class="item" ccflexGrow="1" row="0" col="1" [text]="item.categoryName"></Label> -->
-                        <FlexboxLayout class="item item-group" flexDirection="column">
-                            <Label class="sub-item heading" ccflexGrow="1" row="0" col="1"
-                                [text]="item.categoryName"></Label>
-                            <Label class="sub-item sub-heading" *ngIf="item.notes && item.notes.length" ccflexGrow="1"
-                                flexShrink="1" row="0" col="1" [text]="item.notes"></Label>
-                        </FlexboxLayout>>
-                        <Label class="amount item text-right" flexGrow="1" row="0" col="1"
-                            [text]="item.amount | currency"></Label>
-                    </FlexboxLayout>
-                </ng-template>
-            </ListView>
-        </GridLayout>
-    </StackLayout>
-    <StackLayout *tabItem="{title: calendarService.snapshot.next | date : 'MMMM'}">
-    </StackLayout>
-</TabView>
+
+<!-- <GridLayout #grid  class="bg-primary p-15 m-15">
+</GridLayout> -->

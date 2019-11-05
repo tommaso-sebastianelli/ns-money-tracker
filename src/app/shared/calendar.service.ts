@@ -45,8 +45,8 @@ export class CalendarService {
         const { now, next } = this._snapshot;
         const newNext = new Date(now);
         newNext.setMonth(next.getMonth() + 1);
-        this._snapshot.previous = now;
-        this._snapshot.now = next;
+        this._snapshot.previous = new Date(now);
+        this._snapshot.now = new Date(next);
         this._snapshot.next = newNext;
     }
 
@@ -59,8 +59,8 @@ export class CalendarService {
         const { previous, now } = this._snapshot;
         const newPrev = new Date(now);
         newPrev.setMonth(previous.getMonth() - 1);
-        this._snapshot.next = now;
-        this._snapshot.now = previous;
+        this._snapshot.next = new Date(now);
+        this._snapshot.now = new Date(previous);
         this._snapshot.previous = newPrev;
     }
 

@@ -1,8 +1,9 @@
-import { Component, OnInit, ChangeDetectorRef } from "@angular/core";
+import { Component, OnInit, ChangeDetectorRef, ElementRef, ViewChild } from "@angular/core";
 import { DataService, ITransaction } from "../shared/data.service";
 import { CalendarService } from "../shared/calendar.service";
 import { Observable } from "rxjs";
-import { SelectedIndexChangedEventData, TabView } from "tns-core-modules/ui/tab-view/tab-view";
+import { SwipeGestureEventData } from "tns-core-modules/ui/gestures/gestures";
+import { View } from "tns-core-modules/ui/core/view/view";
 
 @Component({
     selector: "Transactions",
@@ -10,41 +11,60 @@ import { SelectedIndexChangedEventData, TabView } from "tns-core-modules/ui/tab-
     styleUrls: ["./transactions.component.css"]
 })
 export class TransactionsComponent implements OnInit {
-    items: Observable<Array<ITransaction>>;
-    tabSelectedIndex: number;
-    tabView: TabView;
+    @ViewChild("prev", { static: true }) prev: ElementRef;
+    @ViewChild("now", { static: true }) now: ElementRef;
+    @ViewChild("next", { static: true }) next: ElementRef;
+    transactions: Observable<Array<ITransaction>>;
+
     constructor(private _itemService: DataService,
         // tslint:disable-next-line: align
         public calendarService: CalendarService,
         // tslint:disable-next-line: align
         protected cd: ChangeDetectorRef) {
-        this.tabSelectedIndex = 1;
     }
 
     ngOnInit(): void {
-        this.items = this._itemService.getAll();
+        this.loadTransactions();
     }
 
-    onLoaded(args) {
-        this.tabSelectedIndex = -1;
-    }
+    onSwipe(args: SwipeGestureEventData) {
+        console.log("Object that triggered the event: " + args.object);
+        console.log("View that triggered the event: " + args.view);
+        console.log("Event name: " + args.eventName);
+        console.log("Swipe Direction: " + args.direction);
 
-    onSelectedIndexChanged(args: SelectedIndexChangedEventData) {
-        this.cd.detach();
-        this.tabSelectedIndex = -1;
-        this.cd.detectChanges();
+        let slideTransalateX;
+        // backward slide
+        if (args.direction === 2) {
+            slideTransalateX = -1;
+            this.calendarService.nextSnapshot();
+        } else {
+            slideTransalateX = 1;
+            this.calendarService.previousSnapshot();
+        }
 
+        (<View>this.prev.nativeElement).animate({ translate: { x: slideTransalateX * 200, y: 0 }, opacity: 0 });
+        (<View>this.now.nativeElement).animate({ translate: { x: slideTransalateX * 200, y: 0 }, opacity: 1 });
+        (<View>this.next.nativeElement).animate({ translate: { x: slideTransalateX * 200, y: 0 }, opacity: 0 });
+        (<View>args.object).animate({ translate: { x: slideTransalateX * 500, y: 0 }, opacity: 0 });
         setTimeout(() => {
-            if (args.newIndex === 0) {
-                this.calendarService.previousSnapshot();
-                // tslint:disable-next-line: align
-            } if (args.newIndex === 2) {
-                this.calendarService.nextSnapshot();
-            }
-            this.tabSelectedIndex = 1;
-            this.cd.detectChanges();
+            this.loadTransactions();
+            (<View>this.prev.nativeElement).resetNativeView();
+            (<View>this.prev.nativeElement).initNativeView();
+            (<View>this.now.nativeElement).resetNativeView();
+            (<View>this.now.nativeElement).initNativeView();
+            (<View>this.next.nativeElement).resetNativeView();
+            (<View>this.next.nativeElement).initNativeView();
+            (<View>args.object).resetNativeView();
+            (<View>args.object).initNativeView();
+        }, 200);
 
-        }, 100);
+    }
+
+    private loadTransactions(): void {
+        this.transactions = this._itemService.getAll(
+            this.calendarService.snapshot.now.valueOf(),
+            this.calendarService.snapshot.next.valueOf());
     }
 
 }
