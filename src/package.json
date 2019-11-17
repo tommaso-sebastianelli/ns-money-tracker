@@ -3,9 +3,5 @@
   "android": {
     "v8Flags": "--expose_gc",
     "markingMode": "none"
-  },
-  "devDependencies": {
-    "@angular/cli": "^8.3.8",
-    "@nativescript/schematics": "^0.7.2"
   }
 }

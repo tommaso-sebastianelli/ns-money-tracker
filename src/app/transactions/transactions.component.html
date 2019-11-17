@@ -14,7 +14,7 @@
     <GridLayout class="page page-content">
         <ListView [items]="transactions | async" class="list-group" (swipe)="onSwipe($event)">
             <ng-template let-item="item">
-                <FlexboxLayout flexDirection="row" alignItems="center" class="list-group-item">
+                <FlexboxLayout [nsRouterLink]="item.id" flexDirection="row" alignItems="center" class="list-group-item">
                     <Label class="icon item" flexGrow="0" row="0" col="1" [style.background]="(getColor(item) | async)"
                         [text]="(getLabel(item) | async)"></Label>
                     <FlexboxLayout class="item item-group" flexDirection="column">

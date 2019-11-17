@@ -3,11 +3,11 @@ import { Routes } from "@angular/router";
 import { NativeScriptRouterModule } from "nativescript-angular/router";
 
 import { TransactionsComponent } from "./transactions.component";
-import { ItemDetailComponent } from "./item-detail/item-detail.component";
+import { TransactionDetailComponent } from "./transaction-detail/transaction-detail.component";
 
 const routes: Routes = [
     { path: "default", component: TransactionsComponent },
-    { path: "item/:id", component: ItemDetailComponent }
+    { path: "default/:id", component: TransactionDetailComponent }
 ];
 
 @NgModule({

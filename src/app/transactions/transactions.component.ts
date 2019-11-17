@@ -31,6 +31,7 @@ export class TransactionsComponent implements OnInit {
 
     ngOnInit(): void {
         this.loadTransactions();
+
     }
 
     onSwipe(args: SwipeGestureEventData) {

@@ -3,7 +3,7 @@ import { NativeScriptCommonModule } from "nativescript-angular/common";
 
 import { TransactionsRoutingModule } from "./transactions-routing.module";
 import { TransactionsComponent } from "./transactions.component";
-import { ItemDetailComponent } from "./item-detail/item-detail.component";
+import { TransactionDetailComponent } from "./transaction-detail/transaction-detail.component";
 
 @NgModule({
     imports: [
@@ -12,7 +12,7 @@ import { ItemDetailComponent } from "./item-detail/item-detail.component";
     ],
     declarations: [
         TransactionsComponent,
-        ItemDetailComponent
+        TransactionDetailComponent
     ],
     schemas: [
         NO_ERRORS_SCHEMA
