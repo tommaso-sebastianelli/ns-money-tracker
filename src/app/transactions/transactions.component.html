@@ -15,21 +15,22 @@
         <ListView [items]="transactions | async" class="list-group" (swipe)="onSwipe($event)">
             <ng-template let-item="item">
                 <FlexboxLayout flexDirection="row" alignItems="center" class="list-group-item">
-                    <Label class="icon item" flexGrow="0" row="0" col="1" text="$"></Label>
+                    <Label class="icon item" flexGrow="0" row="0" col="1" [style.background]="(getColor(item) | async)"
+                        [text]="(getLabel(item) | async)"></Label>
                     <FlexboxLayout class="item item-group" flexDirection="column">
                         <Label class="sub-item heading" ccflexGrow="1" row="0" col="1"
                             [text]="item.categoryName"></Label>
                         <Label class="sub-item sub-heading" *ngIf="item.notes && item.notes.length" ccflexGrow="1"
                             flexShrink="1" row="0" col="1" [text]="item.notes"></Label>
-                    </FlexboxLayout>>
-                    <Label class="amount item text-right" flexGrow="1" row="0" col="1"
-                        [text]="item.amount | currency"></Label>
+                    </FlexboxLayout>
+                    <Label class="amount item text-right" flexGrow="1" row="0" col="1" [text]="item.amount | currency">
+                    </Label>
                 </FlexboxLayout>
             </ng-template>
         </ListView>
+        <GridLayout *ngIf="!(transactions | async)">
+            <Label class="page-icon fa" text="&#xf057;"></Label>
+            <Label class="page-placeholder" text="No Transactions here."></Label>
+        </GridLayout>
     </GridLayout>
 </StackLayout>
-
-
-<!-- <GridLayout #grid  class="bg-primary p-15 m-15">
-</GridLayout> -->

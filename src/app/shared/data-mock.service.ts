@@ -1,21 +1,13 @@
 import { Injectable } from "@angular/core";
-import { Observable, of, from } from "rxjs";
+import { Observable, of, from, throwError } from "rxjs";
 import { filter, flatMap, first, scan } from "rxjs/operators";
+import { ITransaction } from "./transaction";
+import { ICategory } from "./category";
+import { IDataProvider } from "./data-provider";
 
-export interface ITransaction {
-    id: number;
-    categoryId: number;
-    categoryName: string;
-    notes?: string;
-    datetime: number;
-    amount: number;
-    wallet: number;
-}
+@Injectable()
+export class DataServiceMock implements IDataProvider {
 
-@Injectable({
-    providedIn: "root"
-})
-export class DataService {
     private items = new Array<ITransaction>(
         {
             id: 1,
@@ -64,7 +56,36 @@ export class DataService {
         }
     );
 
-    getAll(startDate: number, endDate: number): Observable<Array<ITransaction>> {
+    private categories: Array<ICategory> = [
+        {
+            id: 1,
+            description: "Food",
+            color: "#ffd54f",
+            icon: ""
+        },
+        {
+            id: 2,
+            description: "Clothing",
+            color: "#64b5f6",
+            icon: ""
+        },
+        {
+            id: 3,
+            description: "Transportations",
+            color: "#d84315",
+            icon: ""
+        }
+    ];
+
+    getAllCategories(): Observable<Array<ICategory>> {
+        return throwError("not implemented");
+    }
+
+    getCategory(cId: number) {
+        return of(this.categories.find(({ id }) => id === cId));
+    }
+
+    getAllTransactions(startDate: number, endDate: number): Observable<Array<ITransaction>> {
         return from(this.items)
             .pipe(
                 filter((item) => item.datetime >= startDate && item.datetime < endDate),
@@ -72,7 +93,7 @@ export class DataService {
             );
     }
 
-    get(id: number): Observable<ITransaction> {
+    getTransaction(id: number): Observable<ITransaction> {
         return of(this.items)
             .pipe(
                 flatMap((items) => items),
