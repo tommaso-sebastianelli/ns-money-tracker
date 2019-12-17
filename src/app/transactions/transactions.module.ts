@@ -5,10 +5,14 @@ import { TransactionsRoutingModule } from "./transactions-routing.module";
 import { TransactionsComponent } from "./transactions.component";
 import { TransactionDetailComponent } from "./transaction-detail/transaction-detail.component";
 
+import { NativeScriptUIDataFormModule } from "nativescript-ui-dataform/angular";
+
+
 @NgModule({
     imports: [
         NativeScriptCommonModule,
-        TransactionsRoutingModule
+		TransactionsRoutingModule,
+		NativeScriptUIDataFormModule
     ],
     declarations: [
         TransactionsComponent,
