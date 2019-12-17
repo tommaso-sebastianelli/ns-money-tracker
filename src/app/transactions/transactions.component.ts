@@ -14,7 +14,7 @@ import { IDataProvider } from "../shared/data-provider";
 @Component({
     selector: "Transactions",
     templateUrl: "./transactions.component.html",
-    styleUrls: ["./transactions.component.css"]
+    styleUrls: ["./transactions.component.scss"]
 })
 export class TransactionsComponent implements OnInit {
     @ViewChild("prev", { static: true }) prev: ElementRef;
