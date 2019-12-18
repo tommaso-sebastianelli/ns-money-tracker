@@ -2,18 +2,12 @@ import { Component, OnInit, Inject } from '@angular/core';
 import { dataProvider } from '~/app/app.module';
 import { IDataProvider } from '~/app/shared/data-provider';
 import { of } from 'rxjs/internal/observable/of';
-
-export class Model{
-  private name: string;
-  constructor(name){
-    this.name = name;
-  }
-}
+import { ITransaction } from '~/app/shared/transaction';
 
 @Component({
   selector: 'ns-transaction-detail',
   templateUrl: './transaction-detail.component.html',
-  // styleUrls: ['./transaction-detail.component.css']
+  styleUrls: ['./transaction-detail.component.scss']
 })
 export class TransactionDetailComponent implements OnInit {
 
@@ -21,7 +15,9 @@ export class TransactionDetailComponent implements OnInit {
   constructor(@Inject(dataProvider) private data: IDataProvider) { }
 
   ngOnInit() {
-    this.model = new Model("pippo");
+    this.model = {
+      name: "test"
+    }
   }
 
 }

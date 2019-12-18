@@ -2,7 +2,8 @@ import { Component, OnInit } from "@angular/core";
 
 @Component({
     selector: "wallets",
-    templateUrl: "./wallets.component.html"
+	templateUrl: "./wallets.component.html",
+	styleUrls: ['./wallets.component.scss']
 })
 export class WalletsComponent implements OnInit {
     constructor() {
