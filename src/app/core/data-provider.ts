@@ -1,5 +1,5 @@
-import { ITransaction } from "./transaction";
-import { ICategory } from "./category";
+import { ITransaction } from "../models/transaction";
+import { ICategory } from "../models/category";
 import { Observable } from "rxjs";
 
 export interface IDataProvider {

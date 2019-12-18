@@ -1,4 +1,5 @@
 import { Injectable } from "@angular/core";
+import { CoreModule } from "./core.module";
 
 export interface ICalendarSnapshot {
     previous: Date;
@@ -7,7 +8,7 @@ export interface ICalendarSnapshot {
 }
 
 @Injectable({
-    providedIn: "root"
+    providedIn: CoreModule
 })
 export class CalendarService {
 

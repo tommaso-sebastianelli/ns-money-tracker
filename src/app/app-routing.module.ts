@@ -2,7 +2,6 @@ import { NgModule } from "@angular/core";
 import { Routes } from "@angular/router";
 import { NSEmptyOutletComponent } from "nativescript-angular";
 import { NativeScriptRouterModule } from "nativescript-angular/router";
-import { TransactionDetailComponent } from "./transactions/transaction-detail/transaction-detail.component";
 
 const routes: Routes = [
     {

@@ -1,15 +1,15 @@
 import { Component, OnInit, ChangeDetectorRef, ElementRef, ViewChild, Inject } from "@angular/core";
-import { DataServiceMock } from "../shared/data-mock.service";
-import { CalendarService } from "../shared/calendar.service";
-import { Observable, from, empty, of } from "rxjs";
+import { DataServiceMock } from "../core/data-mock.service";
+import { CalendarService } from "../core/calendar.service";
+import { Observable, from, of } from "rxjs";
 import { SwipeGestureEventData } from "tns-core-modules/ui/gestures/gestures";
 import { View } from "tns-core-modules/ui/core/view/view";
 import { AnimationPromise } from "tns-core-modules/ui/animation/animation";
-import { catchError, tap, delay, filter, map } from "rxjs/operators";
-import { ITransaction } from "../shared/transaction";
-import { ICategory } from "../shared/category";
+import { catchError, tap, delay, map } from "rxjs/operators";
+import { ITransaction } from "../models/transaction";
+import { ICategory } from "../models/category";
 import { dataProvider } from "../app.module";
-import { IDataProvider } from "../shared/data-provider";
+import { IDataProvider } from "../core/data-provider";
 
 @Component({
     selector: "Transactions",

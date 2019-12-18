@@ -3,8 +3,9 @@ import { NativeScriptModule } from "nativescript-angular/nativescript.module";
 
 import { AppRoutingModule } from "./app-routing.module";
 import { AppComponent } from "./app.component";
-import { IDataProvider } from "./shared/data-provider";
-import { DataServiceMock } from "./shared/data-mock.service";
+import { IDataProvider } from "./core/data-provider";
+import { DataServiceMock } from "./core/data-mock.service";
+import { CoreModule } from "./core/core.module";
 
 export const dataProvider = new InjectionToken<IDataProvider>("dataProviderInjectionToken");
 
@@ -13,8 +14,9 @@ export const dataProvider = new InjectionToken<IDataProvider>("dataProviderInjec
         AppComponent
     ],
     imports: [
-        NativeScriptModule,
-        AppRoutingModule
+		NativeScriptModule,		
+		AppRoutingModule,
+		CoreModule
     ],
     declarations: [
         AppComponent
