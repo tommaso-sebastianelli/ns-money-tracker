@@ -4,7 +4,7 @@ import { NativeScriptRouterModule } from "nativescript-angular/router";
 
 import { TransactionsComponent } from "./transactions.component";
 import { TransactionDetailComponent } from "./transaction-detail/transaction-detail.component";
-import { TransactionDetailResolver } from "./transaction-detail/transaction-detail.resolver";
+import { TransactionDetailResolver } from "../core/resolvers/transaction.resolver";
 
 const routes: Routes = [
 	{ path: "default", component: TransactionsComponent },

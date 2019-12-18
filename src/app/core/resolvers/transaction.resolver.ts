@@ -5,10 +5,11 @@ import { IDataProvider } from '~/app/core/data-provider';
 import { catchError, mergeMap, tap } from 'rxjs/operators';
 import { Observable, throwError, of } from 'rxjs';
 import { ITransaction } from '~/app/models/transaction';
-import { TransactionsModule } from '../transactions.module';
+import { TransactionsModule } from '../../transactions/transactions.module';
+import { CoreModule } from '../core.module';
 
 @Injectable({
-	providedIn: TransactionsModule
+	providedIn: CoreModule
 })
 export class TransactionDetailResolver implements Resolve<Observable<ITransaction>> {
 	constructor(@Inject(dataProvider) private data: IDataProvider, private router: Router) { }
