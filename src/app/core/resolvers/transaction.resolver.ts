@@ -16,18 +16,18 @@ export class TransactionDetailResolver implements Resolve<Observable<ITransactio
 
 	resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<ITransaction> {
 		const id = route.params.id;
-		console.log(`resolver: ${id}`)
+
 		return this.data.getTransaction(id)
 			.pipe(
 				catchError(err => {
 					console.error(`resolver: ${err}`);
+
 					return throwError(err);
 				}),
 				tap(data => {
-					if(!data){
+					if (!data) {
 						throwError("transactions doesn't exist!");
 					}
-					console.log(`resolver: ${data}`);
 				})
 			)
 	}

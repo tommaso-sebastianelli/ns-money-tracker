@@ -5,6 +5,7 @@ import { NativeScriptRouterModule } from "nativescript-angular/router";
 import { TransactionsComponent } from "./transactions.component";
 import { TransactionDetailComponent } from "./transaction-detail/transaction-detail.component";
 import { TransactionDetailResolver } from "../core/resolvers/transaction.resolver";
+import { CategoriesResolver } from "../core/resolvers/categories.resolver";
 
 const routes: Routes = [
 	{ path: "default", component: TransactionsComponent },
@@ -12,7 +13,8 @@ const routes: Routes = [
 		path: "default/:id",
 		component: TransactionDetailComponent,
 		resolve: {
-			transaction: TransactionDetailResolver
+			transaction: TransactionDetailResolver,
+			categories: CategoriesResolver
 		}
 	}
 ];
@@ -20,6 +22,6 @@ const routes: Routes = [
 @NgModule({
 	imports: [NativeScriptRouterModule.forChild(routes)],
 	exports: [NativeScriptRouterModule],
-	providers: [TransactionDetailResolver]
+	providers: []
 })
 export class TransactionsRoutingModule { }

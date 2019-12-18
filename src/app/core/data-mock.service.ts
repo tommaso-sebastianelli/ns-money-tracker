@@ -81,11 +81,11 @@ export class DataServiceMock implements IDataProvider {
 	];
 
 	getAllCategories(): Observable<Array<ICategory>> {
-		return throwError("not implemented");
+		return of(this.categories);
 	}
 
 	getCategory(cId: number) {
-		return of(this.categories.find(({ id }) => id === cId));
+		return of(this.categories.find(({ id }) => id == cId));
 	}
 
 	getAllTransactions(startDate: number, endDate: number): Observable<Array<ITransaction>> {

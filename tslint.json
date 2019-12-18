@@ -1,9 +1,8 @@
 {
-  "extends": "tslint:latest",
   "linterOptions": {
-      "exclude": [
-          "app/*.d.ts"
-      ]
+    "exclude": [
+      "app/*.d.ts"
+    ]
   },
   "rulesDirectory": [
     "node_modules/codelyzer"
