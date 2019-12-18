@@ -23,7 +23,10 @@ export class TransactionDetailResolver implements Resolve<Observable<ITransactio
 					return throwError(err);
 				}),
 				tap(data => {
-					console.log(`resolver: ${data}`);					
+					if(!data){
+						throwError("transactions doesn't exist!");
+					}
+					console.log(`resolver: ${data}`);
 				})
 			)
 	}
