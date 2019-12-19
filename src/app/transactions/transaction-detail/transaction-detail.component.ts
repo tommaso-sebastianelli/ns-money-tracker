@@ -1,5 +1,5 @@
 import { Component, OnInit, Inject } from '@angular/core';
-import { ActivatedRouteSnapshot, ActivatedRoute } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { ITransaction } from '~/app/models/transaction';
 import { RadFormMetadata } from '~/app/models/rad-form';
 import { ICategory } from '~/app/models/category';
@@ -16,21 +16,29 @@ registerElement(
 	styleUrls: ['./transaction-detail.component.scss']
 })
 export class TransactionDetailComponent implements OnInit {
-	public transaction: ITransaction;
+	public _transaction: ITransaction;
 	public categories: Array<ICategory>;
 	public metadata: RadFormMetadata;
 	constructor(private route: ActivatedRoute) {
 
 	}
 
+	public get transaction(): object{
+		return {...this._transaction};
+	}
+
+	public set transaction(val: object){
+
+	}
+
 	ngOnInit() {
-		this.transaction = this.route.snapshot && this.route.snapshot.data && this.route.snapshot.data.transaction;
+		this._transaction = this.route.snapshot && this.route.snapshot.data && this.route.snapshot.data.transaction;
 		this.categories = this.route.snapshot && this.route.snapshot.data && this.route.snapshot.data.categories;
-		if (!this.transaction) {
+		if (!this._transaction) {
 			// FIXME should be calledfor new transaction creation
 			return;
 		}
-		console.log("transaction-detail.component - transaction: " + JSON.stringify(this.transaction));
+		console.log("transaction-detail.component - transaction: " + JSON.stringify(this._transaction));
 		this.metadata = <RadFormMetadata>{
 			commitMode: "Immediate",
 			isReadOnly: false,

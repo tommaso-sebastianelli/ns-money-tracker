@@ -11,7 +11,7 @@ import { CoreModule } from "./core.module";
 })
 export class DataServiceMock implements IDataProvider {
 
-	private items = new Array<ITransaction>(
+	private transactions = new Array<ITransaction>(
 		{
 			id: 1,
 			categoryId: 1,
@@ -84,7 +84,7 @@ export class DataServiceMock implements IDataProvider {
 	}
 
 	getAllTransactions(startDate: number, endDate: number): Observable<Array<ITransaction>> {
-		return from(this.items)
+		return from(this.transactions)
 			.pipe(
 				filter((item) => item.datetime >= startDate && item.datetime < endDate),
 				scan((acc, value) => [...acc, value], [])
@@ -92,12 +92,17 @@ export class DataServiceMock implements IDataProvider {
 	}
 
 	getTransaction(id: number): Observable<ITransaction> {
-		return of(this.items)
+		return of(this.transactions)
 			.pipe(
 				flatMap((items) => {
 					const result = items.find(item => item.id == id);
 					return of(result) || EMPTY;
 				})
 			);
+	}
+
+	saveTransaction(t: ITransaction): Observable<ITransaction>{
+		this.transactions.push(t);
+		return of(t);
 	}
 }
