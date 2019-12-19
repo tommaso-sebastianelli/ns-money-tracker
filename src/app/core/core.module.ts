@@ -1,5 +1,4 @@
 import { NgModule, NO_ERRORS_SCHEMA } from "@angular/core";
-import { AppRoutingModule } from "../app-routing.module";
 
 @NgModule({
 	imports: [

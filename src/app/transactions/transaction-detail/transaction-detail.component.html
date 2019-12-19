@@ -2,7 +2,7 @@
 	<Label class="action-bar-title" text="Transaction"></Label>
 </ActionBar>
 <RadDataForm tkExampleTitle tkToggleNavButton [source]="transaction" [metadata]="metadata">
-	<TKEntityProperty tkDataFormProperty name="categoryId" displayName="Category" index="0"
+	<!-- <TKEntityProperty tkDataFormProperty name="categoryId" displayName="Category" index="0"
 		[valuesProvider]="categoriesNames()">
 		<TKPropertyEditor tkEntityPropertyEditor type="Picker"></TKPropertyEditor>
 	</TKEntityProperty>
@@ -14,6 +14,6 @@
 	</TKEntityProperty>
 	<TKEntityProperty tkDataFormProperty name="notes" displayName="Notes" index="3">
 		<TKPropertyEditor tkEntityPropertyEditor type="MultilineText"></TKPropertyEditor>
-	</TKEntityProperty>
-</RadDataForm> 
-<FAB (tap)="fabTap()" rippleColor="#f1f1f1" class="fab-button"></FAB>
+	</TKEntityProperty> -->
+</RadDataForm>
+<FAB (tap)="save()" rippleColor="#f1f1f1" class="fab-button"></FAB>

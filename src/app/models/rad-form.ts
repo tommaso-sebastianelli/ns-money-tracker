@@ -1,8 +1,7 @@
+import { PropertyConverter } from "nativescript-ui-dataform";
+
 export interface RadFormMetadataProperty {
-	converter?: {
-		convertFrom: (source: any) => any;
-		convertTo: (source: any) => any;
-	},
+	converter?: PropertyConverter,
 	editor:
 	"Text" | //Simple text input.
 	"MultilineText" | //Text input, which supports more than one line.
