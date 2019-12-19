@@ -17,7 +17,7 @@ export class DataServiceMock implements IDataProvider {
 			categoryId: 1,
 			notes: "Description for Item 1",
 			amount: 1.0,
-			datetime: new Date(2019, 9, 1).valueOf(),
+			datetime: new Date().valueOf(),
 			wallet: 0
 		},
 		{
@@ -38,15 +38,15 @@ export class DataServiceMock implements IDataProvider {
 		},
 		{
 			id: 4,
-			categoryId: 1,
+			categoryId: 2,
 			notes: "Description for Item 4",
 			amount: 1.0,
-			datetime: new Date(2019, 6, 10).valueOf(),
+			datetime: new Date().valueOf(),
 			wallet: 0
 		},
 		{
 			id: 5,
-			categoryId: 1,
+			categoryId: 3,
 			notes: "Description for Item 5",
 			amount: 1.0,
 			datetime: new Date(2019, 9, 22).valueOf(),
