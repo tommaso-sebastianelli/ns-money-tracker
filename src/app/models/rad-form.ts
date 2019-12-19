@@ -1,4 +1,4 @@
-export interface RadMetadataProperty {
+export interface RadFormMetadataProperty {
 	converter?: {
 		convertFrom: (source: any) => any;
 		convertTo: (source: any) => any;
@@ -51,8 +51,8 @@ export interface RadMetadataProperty {
 	valuesProvider: Array<string>;
 }
 
-export interface RadMetadata {
+export interface RadFormMetadata {
 	isReadOnly: boolean;
 	commitMode: "Immediate" | "OnLostFocus" | "Manual";
-	propertyAnnotations: Array<RadMetadataProperty>;
+	propertyAnnotations: Array<RadFormMetadataProperty>;
 }

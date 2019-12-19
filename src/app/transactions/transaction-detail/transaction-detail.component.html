@@ -1,4 +1,19 @@
 <ActionBar class="action-bar">
-    <Label class="action-bar-title" text="Transaction"></Label>
+	<Label class="action-bar-title" text="Transaction"></Label>
 </ActionBar>
-<RadDataForm tkExampleTitle tkToggleNavButton [source]="model" [metadata]="metadata"></RadDataForm>
+<RadDataForm tkExampleTitle tkToggleNavButton [source]="transaction" [metadata]="metadata">
+	<TKEntityProperty tkDataFormProperty name="categoryId" displayName="Category" index="0"
+		[valuesProvider]="categoriesNames()">
+		<TKPropertyEditor tkEntityPropertyEditor type="Picker"></TKPropertyEditor>
+	</TKEntityProperty>
+	<TKEntityProperty tkDataFormProperty name="datetime" displayName="Date" index="1">
+		<TKPropertyEditor tkEntityPropertyEditor type="DatePicker"></TKPropertyEditor>
+	</TKEntityProperty>
+	<TKEntityProperty tkDataFormProperty name="amount" displayName="Amount" index="2">
+		<TKPropertyEditor tkEntityPropertyEditor type="Decimal"></TKPropertyEditor>
+	</TKEntityProperty>
+	<TKEntityProperty tkDataFormProperty name="notes" displayName="Notes" index="3">
+		<TKPropertyEditor tkEntityPropertyEditor type="MultilineText"></TKPropertyEditor>
+	</TKEntityProperty>
+</RadDataForm> 
+<FAB (tap)="fabTap()" rippleColor="#f1f1f1" class="fab-button"></FAB>
