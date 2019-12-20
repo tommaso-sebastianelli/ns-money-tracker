@@ -6,12 +6,6 @@ import { ICategory } from '~/app/models/category';
 import { dataProvider } from '~/app/app.module';
 import { IDataProvider } from '~/app/core/data-provider';
 
-import { registerElement } from 'nativescript-angular/element-registry';
-registerElement(
-  'Fab',
-  () => require('@nstudio/nativescript-floatingactionbutton').Fab
-);
-
 @Component({
 	selector: 'ns-transaction-detail',
 	templateUrl: './transaction-detail.component.html',
