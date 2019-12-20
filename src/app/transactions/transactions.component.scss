@@ -1,6 +1,22 @@
-.page .icon{
-	padding:20px 30px;
-	max-width: 35px;
-	max-height: 35px;
-	margin-right:8px;
-}
+.page{
+	.icon{
+		padding:20px 30px;
+		max-width: 35px;
+		max-height: 35px;
+		margin-right:16px;
+		border-radius: 100%;
+	}
+	.list-group-item{
+		.item-group{
+			.heading{
+				font-weight: 400;
+				color: #444;
+			}
+			.sub-heading{
+				font-weight: 400;
+				font-size: small;
+				color: #444;
+			}
+		}
+	}
+} 

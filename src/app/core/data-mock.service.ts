@@ -57,19 +57,19 @@ export class DataServiceMock implements IDataProvider {
 	private categories: Array<ICategory> = [
 		{
 			id: 1,
-			description: "Food",
+			name: "Food",
 			color: "#ffd54f",
 			icon: ""
 		},
 		{
 			id: 2,
-			description: "Clothing",
+			name: "Clothing",
 			color: "#64b5f6",
 			icon: ""
 		},
 		{
 			id: 3,
-			description: "Transportations",
+			name: "Transportations",
 			color: "#d84315",
 			icon: ""
 		}

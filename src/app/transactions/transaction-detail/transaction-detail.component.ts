@@ -12,10 +12,10 @@ class CategoryConverter implements PropertyConverter{
 		this.categories = c;
 	}
 	convertFrom(id: number) {
-		return this.categories.find((c: ICategory) => c.id === id).description;
+		return this.categories.find((c: ICategory) => c.id === id).name;
 	}	
 	convertTo(name: string) {
-		return this.categories.find((c: ICategory) => c.description === name).id;
+		return this.categories.find((c: ICategory) => c.name === name).id;
 	}
 }
 
@@ -87,7 +87,7 @@ export class TransactionDetailComponent implements OnInit {
 	}
 
 	get categoriesNames(): Array<string>{
-		return this.categories.map(c => c.description);
+		return this.categories.map(c => c.name);
 	}
 
 	public formValid() {

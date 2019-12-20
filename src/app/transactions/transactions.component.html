@@ -19,7 +19,7 @@
                         [text]="(getLabel(item) | async)"></Label>
                     <FlexboxLayout class="item item-group" flexDirection="column">
                         <Label class="sub-item heading" ccflexGrow="1" row="0" col="1"
-                            [text]="item.categoryName"></Label>
+                            [text]="getCategoryName(item) | async"></Label>
                         <Label class="sub-item sub-heading" *ngIf="item.notes && item.notes.length" ccflexGrow="1"
                             flexShrink="1" row="0" col="1" [text]="item.notes"></Label>
                     </FlexboxLayout>
