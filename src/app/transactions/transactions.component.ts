@@ -1,36 +1,51 @@
-import { Component, OnInit, ChangeDetectorRef, ElementRef, ViewChild, Inject } from "@angular/core";
+import { Component, OnInit, ChangeDetectorRef, ElementRef, ViewChild, Inject, AfterViewInit } from "@angular/core";
 import { CalendarService } from "../core/calendar.service";
-import { Observable, from, of } from "rxjs";
+import { Observable, from, concat, forkJoin, of } from "rxjs";
 import { SwipeGestureEventData } from "tns-core-modules/ui/gestures/gestures";
-import { View, resetNativeView } from "tns-core-modules/ui/core/view/view";
+import { View } from "tns-core-modules/ui/core/view/view";
 import { AnimationPromise } from "tns-core-modules/ui/animation/animation";
-import { catchError, tap, map, mergeMap, delay } from "rxjs/operators";
+import { map, concatMap, mergeAll, mergeMap, delay, tap } from "rxjs/operators";
 import { ITransaction } from "../models/transaction";
 import { ICategory } from "../models/category";
 import { dataProvider } from "../app.module";
 import { IDataProvider } from "../core/data-provider";
+import { ANIMATIONS } from "../shared/animations";
+import { Page } from "tns-core-modules/ui/page/page";
 
 @Component({
 	selector: "Transactions",
 	templateUrl: "./transactions.component.html",
-	styleUrls: ["./transactions.component.scss"]
+	styleUrls: ["./transactions.component.scss"],
+	animations: ANIMATIONS
 })
 export class TransactionsComponent implements OnInit {
 	@ViewChild("prev", { static: true }) prev: ElementRef;
 	@ViewChild("now", { static: true }) now: ElementRef;
 	@ViewChild("next", { static: true }) next: ElementRef;
+
 	transactions: Observable<Array<ITransaction>>;
+
+	public fabPop = false;
 
 	constructor(@Inject(dataProvider) private data: IDataProvider,
 		// tslint:disable-next-line: align
 		public calendarService: CalendarService,
 		// tslint:disable-next-line: align
-		protected cd: ChangeDetectorRef) {
-	}
+		protected cd: ChangeDetectorRef,
+		private page: Page
+	) { }
 
 	ngOnInit(): void {
 		this.loadTransactions();
-		console.log("a");
+		this.page.on('navigatingTo', (data) => {
+			this.fabPop = true;
+			this.cd.detectChanges();
+		});
+
+		this.page.on('navigatingFrom', (data) => {
+			this.fabPop = false;
+			this.cd.detectChanges();
+		})
 	}
 
 	onSwipe(args: SwipeGestureEventData) {
@@ -49,11 +64,22 @@ export class TransactionsComponent implements OnInit {
 			this.calendarService.previousSnapshot();
 		}
 
-		this.loadTransactions()
+		console.log('load animations...');
+		this.loadAnimations(slideTranslateX, args)
 			.pipe(
-				mergeMap(() => this.loadAnimations(slideTranslateX, args)),
-				mergeMap(() => this.resetAnimations(args))
-			)
+				mergeMap(() => {
+					console.log('loading transactions...');
+					return this.loadTransactions()
+				}),
+				mergeMap(() => {
+					console.log('transactions loaded, resetting views...');
+					return this.resetAnimations(args)
+				})
+			).subscribe(
+				ok => console.log('ok'),
+				err => console.error(err),
+				() => console.log('complete')
+			);
 	}
 
 	getLabel(t: ITransaction): Observable<string> {
@@ -71,38 +97,37 @@ export class TransactionsComponent implements OnInit {
 	}
 
 	getCategoryName(t: ITransaction): Observable<string> {
-		return this.data.getCategory(t.categoryId).pipe(
+		return this.data.getCategory(t.categoryId).pipe( 
 			map(c => c.name)
 		)
 	}
 
-	private loadTransactions(): Observable<Array<ITransaction>> {
+	private loadTransactions(): Observable<any> {
 		this.transactions = this.data.getAllTransactions(
 			this.calendarService.snapshot.now.valueOf(),
 			this.calendarService.snapshot.next.valueOf());
 
-		return this.transactions;
+		// return this.transactions;
+		return of(true);
 	}
 
-	private loadAnimations(directionIndex: number, args): Observable<Array<AnimationPromise>>{
-		return of([
-			// (<View>this.prev.nativeElement).animate({ translate: { x: slideTransalateX * 200, y: 0 }, opacity: 0 }),
-			// (<View>this.now.nativeElement).animate({ translate: { x: slideTransalateX * 200, y: 0 }, opacity: 1 }),
-			// (<View>this.next.nativeElement).animate({ translate: { x: slideTransalateX * 200, y: 0 }, opacity: 0 }),
-			(<View>args.object).animate({ translate: { x: directionIndex * 500, y: 0 }, opacity: 0 })
-		])
+	private loadAnimations(directionIndex: number, args): Observable<any> {
+		return forkJoin([
+			(<View>this.prev.nativeElement).animate({ translate: { x: directionIndex * 200, y: 0 }, opacity: 0 }),
+			(<View>this.now.nativeElement).animate({ translate: { x: directionIndex * 200, y: 0 }, opacity: 1 }),
+			(<View>this.next.nativeElement).animate({ translate: { x: directionIndex * 200, y: 0 }, opacity: 0 }),
+			(<View>args.object).animate({ translate: { x: directionIndex * 500, y: 0 }, opacity: 0, })
+		]
+		)
 	}
 
 	private resetAnimations(args): Observable<null> {
-		return Observable.create(subscriber => {
-			(<View>this.prev.nativeElement).resetNativeView();
-			(<View>this.prev.nativeElement).initNativeView();
-			(<View>this.now.nativeElement).resetNativeView();
-			(<View>this.now.nativeElement).initNativeView();
-			(<View>this.next.nativeElement).resetNativeView();
-			(<View>this.next.nativeElement).initNativeView();
-			(<View>args.object).resetNativeView();
-			(<View>args.object).initNativeView();
+		return Observable.create(subscriber => {			
+			const resetConf = { translate: { x: 0, y: 0 }, opacity: 1, duration: 0 };
+			(<View>this.prev.nativeElement).animate(resetConf),
+			(<View>this.now.nativeElement).animate(resetConf),
+			(<View>this.next.nativeElement).animate(resetConf),
+			(<View>args.object).animate(resetConf)
 			subscriber.next(null);
 		});
 	}

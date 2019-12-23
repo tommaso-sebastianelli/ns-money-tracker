@@ -16,4 +16,4 @@
 		<TKPropertyEditor tkEntityPropertyEditor type="MultilineText"></TKPropertyEditor>
 	</TKEntityProperty>
 </RadDataForm>
-<FAB [style.display]="formValid()" (tap)="save()" rippleColor="#f1f1f1" icon="~/app/images/tick.png" class="fab-button" swipeAnimation="slideUp"></FAB>
+<FAB [@pop]="fabPop" [style.display]="formValid()" (tap)="save()" rippleColor="#f1f1f1" icon="~/app/images/tick.png" class="fab-button"></FAB>

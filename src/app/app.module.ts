@@ -6,6 +6,7 @@ import { AppComponent } from "./app.component";
 import { IDataProvider } from "./core/data-provider";
 import { DataServiceMock } from "./core/data-mock.service";
 import { CoreModule } from "./core/core.module";
+import { SharedModule } from "./shared/shared.module";
 
 export const dataProvider = new InjectionToken<IDataProvider>("dataProviderInjectionToken");
 
@@ -16,7 +17,8 @@ export const dataProvider = new InjectionToken<IDataProvider>("dataProviderInjec
     imports: [
 		NativeScriptModule,		
 		AppRoutingModule,
-		CoreModule
+		CoreModule,
+		SharedModule
     ],
     declarations: [
         AppComponent

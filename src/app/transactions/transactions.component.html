@@ -28,10 +28,10 @@
                 </FlexboxLayout>
             </ng-template>
         </ListView>
-        <GridLayout *ngIf="!(transactions | async)">
+        <GridLayout *ngIf="!(transactions | async)" (swipe)="onSwipe($event)">
             <Label class="page-icon fa" text="&#xf057;"></Label>
             <Label class="page-placeholder" text="No Transactions here."></Label>
         </GridLayout>
     </GridLayout>
 </StackLayout>
-<FAB (tap)="new()" rippleColor="#f1f1f1" icon="~/app/images/plus.png" class="fab-button"></FAB>
+<FAB [@pop]="fabPop" (tap)="new()" rippleColor="#f1f1f1" icon="~/app/images/plus.png" class="fab-button"></FAB>
