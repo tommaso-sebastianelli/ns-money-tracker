@@ -11,6 +11,7 @@ import { dataProvider } from "../app.module";
 import { IDataProvider } from "../core/data-provider";
 import { ANIMATIONS } from "../shared/animations";
 import { Page } from "tns-core-modules/ui/page/page";
+import { Router } from "@angular/router";
 
 @Component({
 	selector: "Transactions",
@@ -31,15 +32,20 @@ export class TransactionsComponent implements OnInit {
 		// tslint:disable-next-line: align
 		public calendarService: CalendarService,
 		// tslint:disable-next-line: align
-		protected cd: ChangeDetectorRef,
-		private page: Page
+		public cd: ChangeDetectorRef,
+		public page: Page,
+		public router: Router
 	) { }
 
 	ngOnInit(): void {
 		this.loadTransactions();
 		this.page.on('navigatingTo', (data) => {
 			this.fabPop = true;
-			this.cd.detectChanges();
+			this.loadTransactions().subscribe(
+				() => {
+					this.cd.detectChanges();
+				}
+			);
 		});
 
 		this.page.on('navigatingFrom', (data) => {
@@ -97,7 +103,7 @@ export class TransactionsComponent implements OnInit {
 	}
 
 	getCategoryName(t: ITransaction): Observable<string> {
-		return this.data.getCategory(t.categoryId).pipe( 
+		return this.data.getCategory(t.categoryId).pipe(
 			map(c => c.name)
 		)
 	}
@@ -122,12 +128,12 @@ export class TransactionsComponent implements OnInit {
 	}
 
 	private resetAnimations(args): Observable<null> {
-		return Observable.create(subscriber => {			
+		return Observable.create(subscriber => {
 			const resetConf = { translate: { x: 0, y: 0 }, opacity: 1, duration: 0 };
 			(<View>this.prev.nativeElement).animate(resetConf),
-			(<View>this.now.nativeElement).animate(resetConf),
-			(<View>this.next.nativeElement).animate(resetConf),
-			(<View>args.object).animate(resetConf)
+				(<View>this.now.nativeElement).animate(resetConf),
+				(<View>this.next.nativeElement).animate(resetConf),
+				(<View>args.object).animate(resetConf)
 			subscriber.next(null);
 		});
 	}

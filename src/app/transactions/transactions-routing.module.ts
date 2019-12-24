@@ -10,6 +10,13 @@ import { CategoriesResolver } from "../core/resolvers/categories.resolver";
 const routes: Routes = [
 	{ path: "default", component: TransactionsComponent },
 	{
+		path: "default/new",
+		component: TransactionDetailComponent,
+		resolve: {
+			categories: CategoriesResolver
+		}
+	},
+	{
 		path: "default/:id",
 		component: TransactionDetailComponent,
 		resolve: {

@@ -7,6 +7,7 @@ import { IDataProvider } from '~/app/core/data-provider';
 import { PropertyConverter } from 'nativescript-ui-dataform';
 import { Page } from 'tns-core-modules/ui/page/page';
 import { ANIMATIONS } from '~/app/shared/animations';
+import { Frame } from 'tns-core-modules/ui/frame/frame';
 
 class CategoryConverter implements PropertyConverter {
 	categories: Array<ICategory>;
@@ -53,7 +54,7 @@ export class TransactionDetailComponent implements OnInit, AfterViewInit {
 
 	constructor(
 		private route: ActivatedRoute,
-		public router: Router,
+		public frame: Frame,
 		@Inject(dataProvider) private data: IDataProvider,
 		protected cd: ChangeDetectorRef,
 		private page: Page
@@ -63,11 +64,18 @@ export class TransactionDetailComponent implements OnInit, AfterViewInit {
 
 	ngOnInit() {
 		const data = this.route.snapshot && this.route.snapshot.data && this.route.snapshot.data.transaction;
-		this.transaction = { ...data };
 		this.categories = this.route.snapshot && this.route.snapshot.data && this.route.snapshot.data.categories;
-		if (!this.transaction) {
-			// FIXME should be calledfor new transaction creation
-			return;
+		if (data) {
+			this.transaction = { ...data };
+		} else {
+			this.transaction = <ITransaction>{
+				id: null,
+				amount: 0.0,
+				categoryId: 1,
+				datetime: new Date().valueOf(),
+				wallet: 1,
+				notes: ""
+			}
 		}
 		console.log("transaction-detail.component - transaction: " + JSON.stringify(this.transaction));
 
@@ -121,14 +129,13 @@ export class TransactionDetailComponent implements OnInit, AfterViewInit {
 	}
 
 	public save(): void {
-		console.log(JSON.stringify(this.transaction));
-
-		// let t = this.transaction;
-		// this.data.saveTransaction(t).subscribe(
-		// 	ok => {
-		// 		this.router.navigateByUrl('default');
-		// 	},
-		// 	err => console.error(err)
-		// );
+		console.log(JSON.stringify(this.transaction));		
+		this.data.saveTransaction(this.transaction).subscribe(
+			t => {
+				console.log('transaction saved or updated: ' + JSON.stringify(t));
+				this.frame.goBack();
+			},
+			err => console.error(err)
+		);
 	}
 }
