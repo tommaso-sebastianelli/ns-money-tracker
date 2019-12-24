@@ -1,8 +1,8 @@
 import { Injectable } from "@angular/core";
 import { Observable, of, from, throwError, EMPTY } from "rxjs";
 import { filter, flatMap, scan } from "rxjs/operators";
-import { ITransaction } from "../models/transaction";
-import { ICategory } from "../models/category";
+import { ITransaction } from "./models/transaction";
+import { ICategory } from "./models/category";
 import { IDataProvider } from "./data-provider";
 import { CoreModule } from "./core.module";
 

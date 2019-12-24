@@ -1,7 +1,7 @@
 import { Component, OnInit, Inject, ViewChild, ChangeDetectorRef, AfterViewInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ITransaction } from '~/app/models/transaction';
-import { ICategory } from '~/app/models/category';
+import { ITransaction } from '~/app/core/models/transaction';
+import { ICategory } from '~/app/core/models/category';
 import { dataProvider } from '~/app/app.module';
 import { IDataProvider } from '~/app/core/data-provider';
 import { PropertyConverter } from 'nativescript-ui-dataform';

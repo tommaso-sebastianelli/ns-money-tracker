@@ -1,7 +1,7 @@
 import { Injectable, Inject } from '@angular/core';
 import { Resolve, ActivatedRouteSnapshot, Router, RouterStateSnapshot } from '@angular/router';
 import { Observable, throwError } from 'rxjs';
-import { ICategory } from '~/app/models/category';
+import { ICategory } from '~/app/core/models/category';
 import { CoreModule } from '../core.module';
 import { dataProvider } from '~/app/app.module';
 import { IDataProvider } from '../data-provider';
