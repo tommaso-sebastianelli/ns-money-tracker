@@ -54,23 +54,85 @@ export class DataServiceMock implements IDataProvider {
 		}
 	);
 
+
+	/* TODO: 
+	Clothing
+	Grocery
+	Hobbies
+	Rent
+	Restaurant
+	Sport
+	Studies
+	Taxes
+	Tech
+	Transportations
+	Travels
+	*/
 	private categories: Array<ICategory> = [
 		{
 			id: 1,
-			name: "Food",
-			color: "#ffd54f",
-			icon: ""
-		},
-		{
-			id: 2,
 			name: "Clothing",
 			color: "#64b5f6",
 			icon: ""
 		},
 		{
+			id: 2,
+			name: "Grocery",
+			color: "#64b5f6",
+			icon: ""
+		},
+		{
 			id: 3,
-			name: "Transportations",
+			name: "Hobbies",
 			color: "#d84315",
+			icon: ""
+		},
+		{
+			id: 4,
+			name: "Rent",
+			color: "#64b5f6",
+			icon: ""
+		},
+		{
+			id: 5,
+			name: "Restaurant",
+			color: "#64b5f6",
+			icon: ""
+		},
+		{
+			id: 6,
+			name: "Sport",
+			color: "#64b5f6",
+			icon: ""
+		},
+		{
+			id: 7,
+			name: "Studies",
+			color: "#64b5f6",
+			icon: ""
+		},
+		{
+			id: 8,
+			name: "Taxes",
+			color: "#64b5f6",
+			icon: ""
+		},
+		{
+			id: 9,
+			name: "Tech",
+			color: "#64b5f6",
+			icon: ""
+		},
+		{
+			id: 10,
+			name: "Transportations",
+			color: "#64b5f6",
+			icon: ""
+		},
+		{
+			id: 11,
+			name: "Travels",
+			color: "#64b5f6",
 			icon: ""
 		}
 	];
@@ -101,14 +163,14 @@ export class DataServiceMock implements IDataProvider {
 			);
 	}
 
-	saveTransaction(t: ITransaction): Observable<ITransaction>{
-		if(!t.id){
+	saveTransaction(t: ITransaction): Observable<ITransaction> {
+		if (!t.id) {
 			t.id = this.transactions.length;
 			this.transactions.push(t);
-		}else{
+		} else {
 			const i = this.transactions.findIndex(_t => _t.id == t.id);
 			this.transactions.splice(i, 1, t);
-		}		
+		}
 		return of(t);
 	}
 }
