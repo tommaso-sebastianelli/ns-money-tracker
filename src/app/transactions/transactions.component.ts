@@ -122,7 +122,7 @@ export class TransactionsComponent implements OnInit {
 	}
 
 	private loadAnimations(directionIndex: number, args): Observable<any> {
-		const animationConf = { translate: { x: directionIndex * 200, y: 0 }, opacity: 0};
+		const animationConf = { translate: { x: directionIndex * 120, y: 0 }, opacity: 0.6};
 		return forkJoin([
 			(<View>this.prev.nativeElement).animate(animationConf),
 			(<View>this.now.nativeElement).animate(animationConf),
