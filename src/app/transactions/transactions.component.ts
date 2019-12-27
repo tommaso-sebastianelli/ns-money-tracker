@@ -1,6 +1,6 @@
 import { Component, OnInit, ChangeDetectorRef, ElementRef, ViewChild, Inject, AfterViewInit } from "@angular/core";
 import { CalendarService } from "../core/calendar.service";
-import { Observable, from, concat, forkJoin, of } from "rxjs";
+import { Observable, from, concat, forkJoin, of, throwError } from "rxjs";
 import { SwipeGestureEventData } from "tns-core-modules/ui/gestures/gestures";
 import { View } from "tns-core-modules/ui/core/view/view";
 import { AnimationPromise, AnimationDefinition } from "tns-core-modules/ui/animation/animation";
@@ -134,15 +134,29 @@ export class TransactionsComponent implements OnInit {
 
 	private resetAnimations(args): Observable<null> {
 		return Observable.create(subscriber => {
-			const resetConf = { translate: { x: 0, y: 0 }, opacity: 1, duration: 0, scale: { x: 1, y: 1 } };
-			(<View>this.prev.nativeElement).animate(resetConf),
-				(<View>this.now.nativeElement).animate(resetConf),
-				(<View>this.next.nativeElement).animate(resetConf),
+			const resetConf = { translate: { x: 0, y: 0 }, duration: 0 };
+			forkJoin([
 				(<View>this.prev.nativeElement).animate(resetConf),
 				(<View>this.now.nativeElement).animate(resetConf),
 				(<View>this.next.nativeElement).animate(resetConf),
 				(<View>args.object).animate(resetConf)
-			subscriber.next(null);
+			]).pipe(
+					()=>{
+						const resetConf2 = { scale: { x: 1, y: 1 }, opacity: 1, duration: 75};
+						return forkJoin([
+							(<View>this.prev.nativeElement).animate(resetConf2),
+							(<View>this.now.nativeElement).animate(resetConf2),
+							(<View>this.next.nativeElement).animate(resetConf2),
+							(<View>args.object).animate(resetConf2)
+						])
+					},
+					err=>throwError(err)
+				).subscribe(
+					()=>{						
+						subscriber.next(null);
+					}
+				)			
+				
 		});
 	}
 
