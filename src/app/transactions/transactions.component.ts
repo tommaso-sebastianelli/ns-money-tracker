@@ -60,7 +60,7 @@ export class TransactionsComponent implements OnInit {
 		console.log("Event name: " + args.eventName);
 		console.log("Swipe Direction: " + args.direction);
 
-		if(args.direction > 2){
+		if (args.direction > 2) {
 			return;
 		}
 
@@ -122,7 +122,7 @@ export class TransactionsComponent implements OnInit {
 	}
 
 	private loadAnimations(directionIndex: number, args): Observable<any> {
-		const animationConf = { translate: { x: directionIndex * 120, y: 0 }, opacity: 0.6};
+		const animationConf = { translate: { x: directionIndex * 120, y: 0 }, opacity: 0.6 };
 		return forkJoin([
 			(<View>this.prev.nativeElement).animate(animationConf),
 			(<View>this.now.nativeElement).animate(animationConf),
@@ -134,8 +134,11 @@ export class TransactionsComponent implements OnInit {
 
 	private resetAnimations(args): Observable<null> {
 		return Observable.create(subscriber => {
-			const resetConf = { translate: { x: 0, y: 0 }, opacity: 1, duration: 0, scale: {x:1, y:1} };
+			const resetConf = { translate: { x: 0, y: 0 }, opacity: 1, duration: 0, scale: { x: 1, y: 1 } };
 			(<View>this.prev.nativeElement).animate(resetConf),
+				(<View>this.now.nativeElement).animate(resetConf),
+				(<View>this.next.nativeElement).animate(resetConf),
+				(<View>this.prev.nativeElement).animate(resetConf),
 				(<View>this.now.nativeElement).animate(resetConf),
 				(<View>this.next.nativeElement).animate(resetConf),
 				(<View>args.object).animate(resetConf)
