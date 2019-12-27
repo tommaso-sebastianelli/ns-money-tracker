@@ -1,7 +1,16 @@
 <ActionBar class="action-bar">
 	<Label class="action-bar-title" text="Transactions"></Label>
 </ActionBar>
-<StackLayout class="input-field">
+<Timeline>
+	<StackLayout>
+		<ng-template>
+			<StackLayout>				
+				<label text="test"></label>
+			</StackLayout>
+		</ng-template>
+	</StackLayout>
+</Timeline>
+<!-- <StackLayout class="input-field">
 	<GridLayout columns="*, *, *" class="timeline text-center" orientation="horizontal" height="30"
 		backgroundColor="lightgray">
 		<Label #prev row="0" col="0" verticalAlignment="center"
@@ -34,5 +43,5 @@
 			<Label class="page-placeholder" text="No Transactions here."></Label>
 		</GridLayout>
 	</GridLayout>
-</StackLayout>
+</StackLayout> -->
 <FAB [@pop]="fabPop" [nsRouterLink]="'new'" rippleColor="#f1f1f1" icon="~/app/images/plus.png" class="fab-button"></FAB>

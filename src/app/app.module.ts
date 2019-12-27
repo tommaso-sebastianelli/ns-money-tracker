@@ -1,6 +1,6 @@
 import { NgModule, NO_ERRORS_SCHEMA, InjectionToken } from "@angular/core";
 import { NativeScriptModule } from "nativescript-angular/nativescript.module";
-
+import { NativeScriptAnimationsModule } from "nativescript-angular/animations";
 import { AppRoutingModule } from "./app-routing.module";
 import { AppComponent } from "./app.component";
 import { IDataProvider } from "./core/data-provider";
@@ -15,10 +15,10 @@ export const dataProvider = new InjectionToken<IDataProvider>("dataProviderInjec
         AppComponent
     ],
     imports: [
-		NativeScriptModule,		
+		NativeScriptModule,
+		NativeScriptAnimationsModule,
 		AppRoutingModule,
-		CoreModule,
-		SharedModule
+		CoreModule
     ],
     declarations: [
         AppComponent

@@ -15,47 +15,47 @@ export class DataServiceMock implements IDataProvider {
 		{
 			id: 1,
 			categoryId: 1,
-			notes: "Description for Item 1",
-			amount: 1.0,
+			notes: "New T-Shirt",
+			amount: 15.99,
 			datetime: new Date().valueOf(),
 			wallet: 0
 		},		
 		{
 			id: 2,
 			categoryId: 2,
-			notes: "Description for Item 4",
-			amount: 1.0,
+			notes: "Groceries",
+			amount: 19.78,
 			datetime: new Date().valueOf(),
 			wallet: 0
 		},
 		{
 			id: 3,
 			categoryId: 3,
-			notes: "Description for Item 5",
-			amount: 1.0,
+			notes: "Table games",
+			amount: 49.00,
 			datetime: new Date().valueOf(),
 			wallet: 0
 		},
 		{
 			id: 4,
 			categoryId: 4,
-			notes: "Description for Item 5",
-			amount: 1.0,
+			notes: '',
+			amount: 500.0,
 			datetime: new Date().valueOf(),
 			wallet: 0
 		},
 		{
 			id: 5,
 			categoryId: 5,
-			notes: "Description for Item 5",
-			amount: 1.0,
+			notes: "Grill restaurant",
+			amount: 49.5,
 			datetime: new Date().valueOf(),
 			wallet: 0
 		},
 		{
 			id: 6,
 			categoryId: 6,
-			notes: "Description for Item 5",
+			notes: "Gym",
 			amount: 1.0,
 			datetime: new Date().valueOf(),
 			wallet: 0
@@ -63,40 +63,40 @@ export class DataServiceMock implements IDataProvider {
 		{
 			id: 7,
 			categoryId: 7,
-			notes: "Description for Item 5",
-			amount: 1.0,
+			notes: "",
+			amount: 69.0,
 			datetime: new Date().valueOf(),
 			wallet: 0
 		},
 		{
 			id: 8,
 			categoryId: 8,
-			notes: "Description for Item 5",
-			amount: 1.0,
+			notes: '',
+			amount: 208.0,
 			datetime: new Date().valueOf(),
 			wallet: 0
 		},
 		{
 			id: 9,
 			categoryId: 9,
-			notes: "Description for Item 5",
-			amount: 1.0,
+			notes: 'Laptop',
+			amount: 599.0,
 			datetime: new Date().valueOf(),
 			wallet: 0
 		},
 		{
 			id: 10,
 			categoryId: 10,
-			notes: "Description for Item 5",
-			amount: 1.0,
+			notes: 'Train ticket',
+			amount: 0.0,
 			datetime: new Date().valueOf(),
 			wallet: 0
 		}	,
 		{
 			id: 11,
 			categoryId: 11,
-			notes: "Description for Item 5",
-			amount: 1.0,
+			notes: 'Flight tickets',
+			amount: 185.0,
 			datetime: new Date().valueOf(),
 			wallet: 0
 		}

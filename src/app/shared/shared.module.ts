@@ -1,12 +1,15 @@
 import { NgModule } from '@angular/core';
-import { NativeScriptAnimationsModule } from "nativescript-angular/animations";
+import { NativeScriptCommonModule } from "nativescript-angular/common";
+import { TimelineComponent } from './timeline/timeline.component';
 
 @NgModule({
 	imports: [
-		NativeScriptAnimationsModule,
+		NativeScriptCommonModule	
 	],
-	exports: [],
-	declarations: [],
+	exports: [
+		TimelineComponent
+	],
+	declarations: [TimelineComponent],
 	providers: [],
 })
 export class SharedModule { }
