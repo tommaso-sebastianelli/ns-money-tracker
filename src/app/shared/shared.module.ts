@@ -1,10 +1,9 @@
 import { NgModule } from '@angular/core';
 import { NativeScriptAnimationsModule } from "nativescript-angular/animations";
 
-
 @NgModule({
 	imports: [
-		NativeScriptAnimationsModule
+		NativeScriptAnimationsModule,
 	],
 	exports: [],
 	declarations: [],

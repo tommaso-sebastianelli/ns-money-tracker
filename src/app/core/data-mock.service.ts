@@ -19,25 +19,9 @@ export class DataServiceMock implements IDataProvider {
 			amount: 1.0,
 			datetime: new Date().valueOf(),
 			wallet: 0
-		},
+		},		
 		{
 			id: 2,
-			categoryId: 1,
-			notes: "Description for Item 2",
-			amount: 1.0,
-			datetime: new Date(2019, 10, 1).valueOf(),
-			wallet: 0
-		},
-		{
-			id: 3,
-			categoryId: 1,
-			notes: "Description for Item 3",
-			amount: 1.0,
-			datetime: new Date(2019, 7, 12).valueOf(),
-			wallet: 0
-		},
-		{
-			id: 4,
 			categoryId: 2,
 			notes: "Description for Item 4",
 			amount: 1.0,
@@ -45,11 +29,75 @@ export class DataServiceMock implements IDataProvider {
 			wallet: 0
 		},
 		{
-			id: 5,
+			id: 3,
 			categoryId: 3,
 			notes: "Description for Item 5",
 			amount: 1.0,
-			datetime: new Date(2019, 9, 22).valueOf(),
+			datetime: new Date().valueOf(),
+			wallet: 0
+		},
+		{
+			id: 4,
+			categoryId: 4,
+			notes: "Description for Item 5",
+			amount: 1.0,
+			datetime: new Date().valueOf(),
+			wallet: 0
+		},
+		{
+			id: 5,
+			categoryId: 5,
+			notes: "Description for Item 5",
+			amount: 1.0,
+			datetime: new Date().valueOf(),
+			wallet: 0
+		},
+		{
+			id: 6,
+			categoryId: 6,
+			notes: "Description for Item 5",
+			amount: 1.0,
+			datetime: new Date().valueOf(),
+			wallet: 0
+		},
+		{
+			id: 7,
+			categoryId: 7,
+			notes: "Description for Item 5",
+			amount: 1.0,
+			datetime: new Date().valueOf(),
+			wallet: 0
+		},
+		{
+			id: 8,
+			categoryId: 8,
+			notes: "Description for Item 5",
+			amount: 1.0,
+			datetime: new Date().valueOf(),
+			wallet: 0
+		},
+		{
+			id: 9,
+			categoryId: 9,
+			notes: "Description for Item 5",
+			amount: 1.0,
+			datetime: new Date().valueOf(),
+			wallet: 0
+		},
+		{
+			id: 10,
+			categoryId: 10,
+			notes: "Description for Item 5",
+			amount: 1.0,
+			datetime: new Date().valueOf(),
+			wallet: 0
+		}	,
+		{
+			id: 11,
+			categoryId: 11,
+			notes: "Description for Item 5",
+			amount: 1.0,
+			datetime: new Date().valueOf(),
 			wallet: 0
 		}
 	);
@@ -72,68 +120,68 @@ export class DataServiceMock implements IDataProvider {
 		{
 			id: 1,
 			name: "Clothing",
-			color: "#64b5f6",
-			icon: ""
+			color: "#90a4ae",
+			icon: "t-shirt"
 		},
 		{
 			id: 2,
-			name: "Grocery",
-			color: "#64b5f6",
-			icon: ""
+			name: "Groceries",
+			color: "#8BC34A",
+			icon: "groceries"
 		},
 		{
 			id: 3,
 			name: "Hobbies",
-			color: "#d84315",
-			icon: ""
+			color: "#81c784",
+			icon: "game"
 		},
 		{
 			id: 4,
 			name: "Rent",
-			color: "#64b5f6",
-			icon: ""
+			color: "#e57373",
+			icon: "house"
 		},
 		{
 			id: 5,
 			name: "Restaurant",
-			color: "#64b5f6",
-			icon: ""
+			color: "#ffe082",
+			icon: "restaurant"
 		},
 		{
 			id: 6,
 			name: "Sport",
-			color: "#64b5f6",
-			icon: ""
+			color: "#4db6ac",
+			icon: "gym"
 		},
 		{
 			id: 7,
 			name: "Studies",
-			color: "#64b5f6",
-			icon: ""
+			color: "#bcaaa4",
+			icon: "mortarboard"
 		},
 		{
 			id: 8,
 			name: "Taxes",
-			color: "#64b5f6",
-			icon: ""
+			color: "#ba68c8",
+			icon: "cash"
 		},
 		{
 			id: 9,
 			name: "Tech",
-			color: "#64b5f6",
-			icon: ""
+			color: "#4dd0e1",
+			icon: "laptop"
 		},
 		{
 			id: 10,
 			name: "Transportations",
-			color: "#64b5f6",
-			icon: ""
+			color: "#ffb74d",
+			icon: "train"
 		},
 		{
 			id: 11,
 			name: "Travels",
 			color: "#64b5f6",
-			icon: ""
+			icon: "boarding-pass"
 		}
 	];
 

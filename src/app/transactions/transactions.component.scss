@@ -1,20 +1,39 @@
-.page{
-	.icon{
-		padding:20px 35px;		
-		margin-right:16px;
-		border-radius: 100%;
+.timeline {
+	.label {
+		font-size: 14px;
+		&.now {
+			font-size: 15px;
+			font-weight: 500;
+		}
 	}
-	.list-group-item{
-		.item-group{
-			.heading{
+}
+
+.page {
+	.image-box {
+		margin-right: 16px;
+		border-radius: 100%;
+
+		.icon {
+			margin: 20px;
+		}
+	}
+
+	.list-group-item {
+		.item-group {
+			.heading {
 				font-weight: 400;
-				color: #444;
 			}
-			.sub-heading{
+
+			.sub-heading {
 				font-weight: 400;
 				font-size: small;
-				color: #444;
+				color: #666;
 			}
+		}
+
+		.amount {
+			font-size: 16px;
+			font-weight: 400;
 		}
 	}
 }

@@ -3,7 +3,7 @@ import { CalendarService } from "../core/calendar.service";
 import { Observable, from, concat, forkJoin, of } from "rxjs";
 import { SwipeGestureEventData } from "tns-core-modules/ui/gestures/gestures";
 import { View } from "tns-core-modules/ui/core/view/view";
-import { AnimationPromise } from "tns-core-modules/ui/animation/animation";
+import { AnimationPromise, AnimationDefinition } from "tns-core-modules/ui/animation/animation";
 import { map, concatMap, mergeAll, mergeMap, delay, tap } from "rxjs/operators";
 import { ITransaction } from "../core/models/transaction";
 import { ICategory } from "../core/models/category";
@@ -60,6 +60,10 @@ export class TransactionsComponent implements OnInit {
 		console.log("Event name: " + args.eventName);
 		console.log("Swipe Direction: " + args.direction);
 
+		if(args.direction > 2){
+			return;
+		}
+
 		let slideTranslateX;
 		// backward slide
 		if (args.direction === 2) {
@@ -88,11 +92,11 @@ export class TransactionsComponent implements OnInit {
 			);
 	}
 
-	getLabel(t: ITransaction): Observable<string> {
-		return this.data.getCategory(t.categoryId).pipe(
-			//filter((c: ICategory) => c && !!c.description),
-			map((c: ICategory) => c.name.charAt(0))
-		);
+	getIconPath(t: ITransaction): Observable<string> {
+		return this.data.getCategory(t.categoryId)
+			.pipe(
+				mergeMap(c => of(`~/app/images/${c.icon}.png`))
+			)
 	}
 
 	getColor(t: ITransaction): Observable<string> {
@@ -118,10 +122,11 @@ export class TransactionsComponent implements OnInit {
 	}
 
 	private loadAnimations(directionIndex: number, args): Observable<any> {
+		const animationConf = { translate: { x: directionIndex * 200, y: 0 }, opacity: 0};
 		return forkJoin([
-			(<View>this.prev.nativeElement).animate({ translate: { x: directionIndex * 200, y: 0 }, opacity: 0 }),
-			(<View>this.now.nativeElement).animate({ translate: { x: directionIndex * 200, y: 0 }, opacity: 1 }),
-			(<View>this.next.nativeElement).animate({ translate: { x: directionIndex * 200, y: 0 }, opacity: 0 }),
+			(<View>this.prev.nativeElement).animate(animationConf),
+			(<View>this.now.nativeElement).animate(animationConf),
+			(<View>this.next.nativeElement).animate(animationConf),
 			(<View>args.object).animate({ translate: { x: directionIndex * 500, y: 0 }, opacity: 0, })
 		]
 		)
@@ -129,7 +134,7 @@ export class TransactionsComponent implements OnInit {
 
 	private resetAnimations(args): Observable<null> {
 		return Observable.create(subscriber => {
-			const resetConf = { translate: { x: 0, y: 0 }, opacity: 1, duration: 0 };
+			const resetConf = { translate: { x: 0, y: 0 }, opacity: 1, duration: 0, scale: {x:1, y:1} };
 			(<View>this.prev.nativeElement).animate(resetConf),
 				(<View>this.now.nativeElement).animate(resetConf),
 				(<View>this.next.nativeElement).animate(resetConf),
