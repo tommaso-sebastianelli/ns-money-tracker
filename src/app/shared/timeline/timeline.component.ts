@@ -1,13 +1,12 @@
-import { Component, OnInit, ChangeDetectorRef, ElementRef, ViewChild, Inject, ContentChild, TemplateRef } from "@angular/core";
-import { CalendarService } from "../../core/calendar.service";
-import { Observable, forkJoin, of, throwError } from "rxjs";
+import { Component, OnInit, ElementRef, ViewChild, Inject, ContentChild, TemplateRef, Output, EventEmitter } from "@angular/core";
+import { CalendarService, ICalendarSnapshot } from "../../core/calendar.service";
+import { Observable, forkJoin, throwError } from "rxjs";
 import { SwipeGestureEventData } from "tns-core-modules/ui/gestures/gestures";
 import { View } from "tns-core-modules/ui/core/view/view";
-import { mergeMap} from "rxjs/operators";
+import { mergeMap } from "rxjs/operators";
 import { dataProvider } from "../../app.module";
 import { IDataProvider } from "../../core/data-provider";
 import { Page } from "tns-core-modules/ui/page/page";
-import { Router } from "@angular/router";
 
 @Component({
 	selector: "Timeline",
@@ -19,17 +18,34 @@ export class TimelineComponent implements OnInit {
 	@ViewChild("now", { static: true }) now: ElementRef;
 	@ViewChild("next", { static: true }) next: ElementRef;
 
-	@ContentChild(TemplateRef, {static: false}) outlet: TemplateRef<any>
+	/**
+	 * The Template to be transcluded into timeline view
+	 *
+	 * @type {TemplateRef<any>}
+	 * @memberof TimelineComponent
+	 */
+	@ContentChild(TemplateRef, { static: false }) outlet: TemplateRef<any>
 
-	public fabPop = false;
+	/**
+	 * The event to be passed on the parent on timeline swipe
+	 *
+	 * @type {EventEmitter<ICalendarSnapshot>}
+	 * @memberof TimelineComponent
+	 */
+	@Output() timelineChange: EventEmitter<ICalendarSnapshot> = new EventEmitter();
 
-	constructor(@Inject(dataProvider) private data: IDataProvider,
-		// tslint:disable-next-line: align
+	constructor(// tslint:disable-next-line: align
 		public calendarService: CalendarService,
 		// tslint:disable-next-line: align
+		public page: Page
+
 	) { }
 
-	ngOnInit(): void {		
+	ngOnInit(): void {
+		this.timelineChange.emit(this.calendarService.snapshot);
+		this.page.on('navigatingTo', (data) => {
+			this.timelineChange.emit(this.calendarService.snapshot);
+		});
 	}
 
 	onSwipe(args: SwipeGestureEventData) {
@@ -61,10 +77,11 @@ export class TimelineComponent implements OnInit {
 				// }),
 				mergeMap(() => {
 					console.log('transactions loaded, resetting views...');
+					this.timelineChange.emit(this.calendarService.snapshot);
 					return this.resetAnimations(args)
 				})
 			).subscribe(
-				ok => console.log('ok'),
+				() => console.log('ok'),
 				err => console.error(err),
 				() => console.log('complete')
 			);
@@ -90,22 +107,22 @@ export class TimelineComponent implements OnInit {
 				(<View>this.next.nativeElement).animate(resetConf),
 				(<View>args.object).animate(resetConf)
 			]).pipe(
-					()=>{
-						const resetConf2 = { scale: { x: 1, y: 1 }, opacity: 1, duration: 75};
-						return forkJoin([
-							(<View>this.prev.nativeElement).animate(resetConf2),
-							(<View>this.now.nativeElement).animate(resetConf2),
-							(<View>this.next.nativeElement).animate(resetConf2),
-							(<View>args.object).animate(resetConf2)
-						])
-					},
-					err=>throwError(err)
-				).subscribe(
-					()=>{						
-						subscriber.next(null);
-					}
-				)			
-				
+				() => {
+					const resetConf2 = { scale: { x: 1, y: 1 }, opacity: 1, duration: 75 };
+					return forkJoin([
+						(<View>this.prev.nativeElement).animate(resetConf2),
+						(<View>this.now.nativeElement).animate(resetConf2),
+						(<View>this.next.nativeElement).animate(resetConf2),
+						(<View>args.object).animate(resetConf2)
+					])
+				},
+				err => throwError(err)
+			).subscribe(
+				() => {
+					subscriber.next(null);
+				}
+			)
+
 		});
 	}
 

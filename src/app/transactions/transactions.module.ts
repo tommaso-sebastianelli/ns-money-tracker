@@ -10,10 +10,10 @@ import { SharedModule } from "../shared/shared.module";
 
 @NgModule({
     imports: [
-		TransactionsRoutingModule, 
-		NativeScriptCommonModule,
-		NativeScriptUIDataFormModule,
-		SharedModule
+        TransactionsRoutingModule,
+        NativeScriptCommonModule,
+        NativeScriptUIDataFormModule,
+        SharedModule
     ],
     declarations: [
         TransactionsComponent,

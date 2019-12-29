@@ -1,7 +1,7 @@
-import { Component, OnInit, ChangeDetectorRef, ElementRef, ViewChild, Inject, AfterViewInit } from "@angular/core";
-import { CalendarService } from "../core/calendar.service";
-import { Observable,  of } from "rxjs";
-import { map,  mergeMap } from "rxjs/operators";
+import { Component, OnInit, ChangeDetectorRef, ElementRef, ViewChild, Inject } from "@angular/core";
+import { ICalendarSnapshot } from "../core/calendar.service";
+import { Observable, of } from "rxjs";
+import { map, mergeMap } from "rxjs/operators";
 import { ITransaction } from "../core/models/transaction";
 import { ICategory } from "../core/models/category";
 import { dataProvider } from "../app.module";
@@ -25,24 +25,17 @@ export class TransactionsComponent implements OnInit {
 
 	public fabPop = false;
 
-	constructor(@Inject(dataProvider) private data: IDataProvider,
-		// tslint:disable-next-line: align
-		public calendarService: CalendarService,
-		// tslint:disable-next-line: align
+	constructor(
+		@Inject(dataProvider) private data: IDataProvider,
 		public cd: ChangeDetectorRef,
 		public page: Page,
 		public router: Router
 	) { }
 
 	ngOnInit(): void {
-		this.loadTransactions();
 		this.page.on('navigatingTo', (data) => {
 			this.fabPop = true;
-			this.loadTransactions().subscribe(
-				() => {
-					this.cd.detectChanges();
-				}
-			);
+			this.cd.detectChanges();
 		});
 
 		this.page.on('navigatingFrom', (data) => {
@@ -50,8 +43,6 @@ export class TransactionsComponent implements OnInit {
 			this.cd.detectChanges();
 		})
 	}
-
-	
 
 	getIconPath(t: ITransaction): Observable<string> {
 		return this.data.getCategory(t.categoryId)
@@ -73,10 +64,15 @@ export class TransactionsComponent implements OnInit {
 		)
 	}
 
-	private loadTransactions(): Observable<any> {
+	update(snapshot: ICalendarSnapshot) {
+		console.log(`timelineChange`);
+		this.loadTransactions(snapshot);
+	}
+
+	private loadTransactions(snapshot: ICalendarSnapshot): Observable<any> {
 		this.transactions = this.data.getAllTransactions(
-			this.calendarService.snapshot.now.valueOf(),
-			this.calendarService.snapshot.next.valueOf());
+			snapshot.now.valueOf(),
+			snapshot.next.valueOf());
 
 		// return this.transactions;
 		return of(true);

@@ -4,12 +4,12 @@ import { TimelineComponent } from './timeline/timeline.component';
 
 @NgModule({
 	imports: [
-		NativeScriptCommonModule	
+		NativeScriptCommonModule
 	],
 	exports: [
 		TimelineComponent
 	],
 	declarations: [TimelineComponent],
-	providers: [],
+	providers: []
 })
 export class SharedModule { }
