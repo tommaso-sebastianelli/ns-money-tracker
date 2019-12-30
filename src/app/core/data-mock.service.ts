@@ -213,7 +213,7 @@ export class DataServiceMock implements IDataProvider {
 
 	saveTransaction(t: ITransaction): Observable<ITransaction> {
 		if (!t.id) {
-			t.id = this.transactions.length;
+			t.id = this.transactions.length + 1;
 			this.transactions.push(t);
 		} else {
 			const i = this.transactions.findIndex(_t => _t.id == t.id);
