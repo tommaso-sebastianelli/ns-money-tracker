@@ -17,12 +17,12 @@ export class DataServiceMock implements IDataProvider {
 			categoryId: 1,
 			notes: "New T-Shirt",
 			amount: 15.99,
-			datetime: new Date().valueOf(),
+			datetime: new Date(1580377478000).valueOf(),
 			wallet: 0
 		},		
 		{
 			id: 2,
-			categoryId: 2,
+			categoryId: 2, 
 			notes: "Groceries",
 			amount: 19.78,
 			datetime: new Date().valueOf(),

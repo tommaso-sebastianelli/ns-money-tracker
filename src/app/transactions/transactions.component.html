@@ -4,6 +4,7 @@
 <Timeline (timelineChange)="update($event)">
     <ng-template>
         <GridLayout class="page page-content">
+			<ng-template *ngIf="(transactions | async) else noData"></ng-template>
             <ListView [items]="transactions | async" class="list-group">
                 <ng-template let-item="item">
                     <FlexboxLayout [nsRouterLink]="item.id" flexDirection="row" alignItems="center"
@@ -24,10 +25,12 @@
                     </FlexboxLayout>
                 </ng-template>
             </ListView>
-            <GridLayout *ngIf="!(transactions | async)">
-                <Label class="page-icon fa" text="&#xf057;"></Label>
-                <Label class="page-placeholder" text="No Transactions here."></Label>
-            </GridLayout>
+            <ng-template #noData>
+				<GridLayout class="placeholder">
+					<Label class="page-icon fa" text="&#xf057;"></Label>
+					<Label class="page-placeholder" text="No Transactions here."></Label>
+				</GridLayout>                
+            </ng-template>
         </GridLayout>
     </ng-template>
 </Timeline>

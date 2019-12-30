@@ -1,10 +1,12 @@
 import { Component, OnInit, ElementRef, ViewChild, ContentChild, TemplateRef, Output, EventEmitter, AfterViewInit, ViewChildren, Directive, Input, QueryList } from "@angular/core";
 import { CalendarService, ICalendarSnapshot } from "../../core/calendar.service";
 import { Observable, forkJoin, throwError } from "rxjs";
-import { SwipeGestureEventData } from "tns-core-modules/ui/gestures/gestures";
+import { PanGestureEventData } from "tns-core-modules/ui/gestures/gestures";
+import { screen } from "tns-core-modules/platform";
 import { View } from "tns-core-modules/ui/core/view/view";
-import { mergeMap } from "rxjs/operators";
+import { mergeMap, tap } from "rxjs/operators";
 import { Page } from "tns-core-modules/ui/page/page";
+import { AnimationCurve } from "tns-core-modules/ui/enums";
 
 @Component({
 	selector: "Timeline",
@@ -43,72 +45,101 @@ export class TimelineComponent implements OnInit {
 		});
 	}
 
-	onSwipe(args: SwipeGestureEventData) {
-		console.log("Object that triggered the event: " + args.object);
-		console.log("View that triggered the event: " + args.view);
-		console.log("Event name: " + args.eventName);
-		console.log("Swipe Direction: " + args.direction);
-
-		if (args.direction > 2) {
-			return;
-		}
-
-		let slideTranslateX;
-		// backward slide
-		if (args.direction === 2) {
-			slideTranslateX = -1;
-			this.calendarService.nextSnapshot();
+	public onPan(args: PanGestureEventData): void {
+		console.log("Pan: [" + args.deltaX + ", " + args.deltaY + "] state: " + args.state);
+		const { deltaX, state } = args;
+		const screenWidth = screen.mainScreen.widthDIPs;
+		const triggerDragDistance = screenWidth / 2;
+		const slideCoeff = (1 / (Math.abs(deltaX) * (screenWidth / 25000)));		
+		console.log(slideCoeff);
+		if (state === 2) {
+			const conf = { translate: { x: deltaX / 2, y: 0 }, duration: 0, opacity: 1 };
+			(<View>args.object).animate({ ...conf, translate: { x: deltaX, y: 0 }, opacity: slideCoeff });
+			(<View>this.prev.nativeElement).animate(conf);
+			(<View>this.now.nativeElement).animate({...conf, scale: {x: 1, y:1}});
+			(<View>this.next.nativeElement).animate(conf);
 		} else {
-			slideTranslateX = 1;
-			this.calendarService.previousSnapshot();
+			if (state === 3) {
+				if (Math.abs(deltaX) > triggerDragDistance) {
+					this.changeView(args).subscribe();
+				} else {
+					this.resetAnimation(args, 250).subscribe();
+				}
+			}
 		}
+	}
 
-		console.log('load animations...');
-		this.loadAnimations(slideTranslateX, args)
+	/**
+	 * Perform a view change animation
+	 *
+	 * @private
+	 * @param {PanGestureEventData} args
+	 * @memberof TimelineComponent
+	 */
+	private changeView(args: PanGestureEventData): Observable<null> {
+		return this.slideAnimation(args)
 			.pipe(
-				// mergeMap(() => {
-				// 	console.log('loading transactions...');
-				// 	return this.loadTransactions()
-				// }),
+				tap(() => {
+					(args.deltaX < 0) ?
+						this.calendarService.nextSnapshot() :
+						this.calendarService.previousSnapshot()
+				}),
+				tap(() => {
+					this.timelineChange.emit(this.calendarService.snapshot);
+				}),
 				mergeMap(() => {
 					console.log('transactions loaded, resetting views...');
-					this.timelineChange.emit(this.calendarService.snapshot);
-					return this.resetAnimations(args)
+					return this.resetAnimation(args)
 				})
-			).subscribe(
-				() => console.log('ok'),
-				err => console.error(err),
-				() => console.log('complete')
 			);
 	}
 
-	private loadAnimations(directionIndex: number, args): Observable<any> {
-		const animationConf = { translate: { x: directionIndex * 120, y: 0 }, opacity: 0.6 };
+	/**
+	 * Translate the view left or right based on the direction
+	 *
+	 * @private
+	 * @param {PanGestureEventData} args
+	 * @returns {Observable<any>}
+	 * @memberof TimelineComponent
+	 */
+	private slideAnimation(args: PanGestureEventData): Observable<any> {
+		const { deltaX } = args;
+		const direction = (deltaX > 0) ? 1 : -1;
+		const slideCoeff = screen.mainScreen.widthDIPs;
+		const animationConf = { translate: { x: direction * (slideCoeff / 3), y: 0 }, opacity: 1 };
 		return forkJoin([
 			(<View>this.prev.nativeElement).animate(animationConf),
 			(<View>this.now.nativeElement).animate(animationConf),
 			(<View>this.next.nativeElement).animate(animationConf),
-			(<View>args.object).animate({ translate: { x: directionIndex * 500, y: 0 }, opacity: 0, })
+			(<View>args.object).animate({ translate: { x: direction * slideCoeff, y: 0 } })
 		]
 		)
 	}
 
-	private resetAnimations(args): Observable<null> {
+	/**
+	 *	Reset the view and translate it back to its original position
+	 *
+	 * @private
+	 * @param {*} args
+	 * @returns {Observable<null>}
+	 * @memberof TimelineComponent
+	 */
+	private resetAnimation(args, duration = 0): Observable<null> {
 		return Observable.create(subscriber => {
-			const resetConf = { translate: { x: 0, y: 0 }, duration: 0 };
+			const resetPosition = { translate: { x: 0, y: 0 }, duration: duration, curve: AnimationCurve.easeIn };
 			forkJoin([
-				(<View>this.prev.nativeElement).animate(resetConf),
-				(<View>this.now.nativeElement).animate(resetConf),
-				(<View>this.next.nativeElement).animate(resetConf),
-				(<View>args.object).animate(resetConf)
+				(<View>this.prev.nativeElement).animate(resetPosition),
+				(<View>this.now.nativeElement).animate(resetPosition),
+				(<View>this.next.nativeElement).animate(resetPosition),
+				(<View>args.object).animate(resetPosition)
 			]).pipe(
 				() => {
-					const resetConf2 = { scale: { x: 1, y: 1 }, opacity: 1, duration: 75 };
+					const resetAppearance = { scale: { x: 1, y: 1 }, opacity: 1, duration: 0 };
 					return forkJoin([
-						(<View>this.prev.nativeElement).animate(resetConf2),
-						(<View>this.now.nativeElement).animate(resetConf2),
-						(<View>this.next.nativeElement).animate(resetConf2),
-						(<View>args.object).animate(resetConf2)
+						(<View>this.prev.nativeElement).animate(resetAppearance),
+						(<View>this.now.nativeElement).animate({...resetAppearance, scale:{x: 1.3, y:1.3}, duration: 250}),
+						(<View>this.next.nativeElement).animate(resetAppearance),
+						(<View>args.object).animate({ ...resetAppearance, duration: 150 })
 					])
 				},
 				err => throwError(err)
@@ -117,7 +148,6 @@ export class TimelineComponent implements OnInit {
 					subscriber.next(null);
 				}
 			)
-
 		});
 	}
 
