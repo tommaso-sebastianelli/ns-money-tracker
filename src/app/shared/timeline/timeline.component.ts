@@ -1,11 +1,9 @@
-import { Component, OnInit, ElementRef, ViewChild, Inject, ContentChild, TemplateRef, Output, EventEmitter } from "@angular/core";
+import { Component, OnInit, ElementRef, ViewChild, ContentChild, TemplateRef, Output, EventEmitter, AfterViewInit, ViewChildren, Directive, Input, QueryList } from "@angular/core";
 import { CalendarService, ICalendarSnapshot } from "../../core/calendar.service";
 import { Observable, forkJoin, throwError } from "rxjs";
 import { SwipeGestureEventData } from "tns-core-modules/ui/gestures/gestures";
 import { View } from "tns-core-modules/ui/core/view/view";
 import { mergeMap } from "rxjs/operators";
-import { dataProvider } from "../../app.module";
-import { IDataProvider } from "../../core/data-provider";
 import { Page } from "tns-core-modules/ui/page/page";
 
 @Component({
@@ -17,7 +15,6 @@ export class TimelineComponent implements OnInit {
 	@ViewChild("prev", { static: true }) prev: ElementRef;
 	@ViewChild("now", { static: true }) now: ElementRef;
 	@ViewChild("next", { static: true }) next: ElementRef;
-
 	/**
 	 * The Template to be transcluded into timeline view
 	 *
@@ -38,12 +35,10 @@ export class TimelineComponent implements OnInit {
 		public calendarService: CalendarService,
 		// tslint:disable-next-line: align
 		public page: Page
-
 	) { }
 
 	ngOnInit(): void {
-		this.timelineChange.emit(this.calendarService.snapshot);
-		this.page.on('navigatingTo', (data) => {
+		this.page.on('navigatingTo', () => {
 			this.timelineChange.emit(this.calendarService.snapshot);
 		});
 	}
