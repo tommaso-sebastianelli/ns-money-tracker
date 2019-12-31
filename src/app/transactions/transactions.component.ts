@@ -8,7 +8,7 @@ import { dataProvider } from "../app.module";
 import { IDataProvider } from "../core/data-provider";
 import { ANIMATIONS } from "../shared/animations";
 import { Page } from "tns-core-modules/ui/page/page";
-import { Router } from "@angular/router";
+import { RouterExtensions } from "nativescript-angular/router";
 
 @Component({
 	selector: "Transactions",
@@ -29,7 +29,7 @@ export class TransactionsComponent implements OnInit {
 		@Inject(dataProvider) private data: IDataProvider,
 		public cd: ChangeDetectorRef,
 		public page: Page,
-		public router: Router
+		private routerExtensions: RouterExtensions
 	) { }
 
 	ngOnInit(): void {
@@ -68,6 +68,12 @@ export class TransactionsComponent implements OnInit {
 		console.log(`timelineChange`);
 		this.loadTransactions(snapshot)
 			.subscribe()
+	}
+
+	select(id: number) {
+		setTimeout(() => {
+			this.routerExtensions.navigate(['/', { outlets: { transactionsTab: ['transactions', 'default', id] } }]).then(() => { console.log('navigation') })
+		}, 200)
 	}
 
 	private loadTransactions(snapshot: ICalendarSnapshot): Observable<any> {

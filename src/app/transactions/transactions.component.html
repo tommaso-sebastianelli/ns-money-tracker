@@ -3,10 +3,10 @@
 </ActionBar>
 <Timeline (timelineChange)="update($event)">
 	<ng-template>
-		<GridLayout class="page page-content">
+		<StackLayout class="page page-content">
 			<ListView *ngIf="(transactions | async) else noData" [items]="transactions | async" class="list-group">
 				<ng-template let-item="item">
-					<FlexboxLayout ripple [nsRouterLink]="item.id" flexDirection="row" alignItems="center"
+					<FlexboxLayout ripple (tap)="select(item.id)" flexDirection="row" alignItems="center"
 						class="list-group-item">
 						<StackLayout [style.background]="(getColor(item) | async)" class="image-box">
 							<Image src="{{getIconPath(item) | async}}" class="icon" height="30" width="30"
@@ -30,7 +30,7 @@
 					<Label class="page-placeholder" text="No Transactions here."></Label>
 				</GridLayout>
 			</ng-template>
-		</GridLayout>
+		</StackLayout>
 	</ng-template>
 </Timeline>
 <FAB [@pop]="fabPop" [nsRouterLink]="'new'" rippleColor="#f1f1f1" icon="~/app/images/plus.png" class="fab-button"></FAB>

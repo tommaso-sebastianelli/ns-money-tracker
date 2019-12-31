@@ -9,7 +9,6 @@ const routes: Routes = [
         redirectTo: "/(transactionsTab:transactions/default//overviewTab:overview/default//walletsTab:wallets/default)",
         pathMatch: "full"
     },
-
     {
         path: "transactions",
         component: NSEmptyOutletComponent,
