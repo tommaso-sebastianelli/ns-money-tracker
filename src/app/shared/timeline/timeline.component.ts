@@ -49,14 +49,14 @@ export class TimelineComponent implements OnInit {
 		console.log("Pan: [" + args.deltaX + ", " + args.deltaY + "] state: " + args.state);
 		const { deltaX, state } = args;
 		const screenWidth = screen.mainScreen.widthDIPs;
-		const triggerDragDistance = screenWidth / 2;
-		const slideCoeff = (1 / (Math.abs(deltaX) * (screenWidth / 25000)));		
+		const triggerDragDistance = screenWidth / 3;
+		const slideCoeff = (1 / (Math.abs(deltaX) * (screenWidth / 25000)));
 		console.log(slideCoeff);
 		if (state === 2) {
 			const conf = { translate: { x: deltaX / 2, y: 0 }, duration: 0, opacity: 1 };
 			(<View>args.object).animate({ ...conf, translate: { x: deltaX, y: 0 }, opacity: slideCoeff });
 			(<View>this.prev.nativeElement).animate(conf);
-			(<View>this.now.nativeElement).animate({...conf, scale: {x: 1, y:1}});
+			(<View>this.now.nativeElement).animate({ ...conf, scale: { x: 1, y: 1 } });
 			(<View>this.next.nativeElement).animate(conf);
 		} else {
 			if (state === 3) {
@@ -137,7 +137,7 @@ export class TimelineComponent implements OnInit {
 					const resetAppearance = { scale: { x: 1, y: 1 }, opacity: 1, duration: 0 };
 					return forkJoin([
 						(<View>this.prev.nativeElement).animate(resetAppearance),
-						(<View>this.now.nativeElement).animate({...resetAppearance, scale:{x: 1.3, y:1.3}, duration: 250}),
+						(<View>this.now.nativeElement).animate({ ...resetAppearance, scale: { x: 1.3, y: 1.3 }, duration: 250 }),
 						(<View>this.next.nativeElement).animate(resetAppearance),
 						(<View>args.object).animate({ ...resetAppearance, duration: 150 })
 					])

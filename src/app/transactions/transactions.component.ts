@@ -67,13 +67,13 @@ export class TransactionsComponent implements OnInit {
 	update(snapshot: ICalendarSnapshot) {
 		console.log(`timelineChange`);
 		this.loadTransactions(snapshot)
-		.subscribe()
+			.subscribe()
 	}
 
 	private loadTransactions(snapshot: ICalendarSnapshot): Observable<any> {
 		this.transactions = this.data.getAllTransactions(
 			snapshot.now.valueOf(),
-			snapshot.next.valueOf()) 
+			snapshot.next.valueOf())
 
 		// return this.transactions;
 		return of(true);
