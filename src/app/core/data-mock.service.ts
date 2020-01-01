@@ -197,8 +197,7 @@ export class DataServiceMock implements IDataProvider {
 		return from(this.transactions)
 			.pipe(
 				filter((item) => item.datetime >= startDate && item.datetime < endDate),
-				toArray(),
-				tap(data => console.log(data))
+				toArray()
 			)
 	}
 
