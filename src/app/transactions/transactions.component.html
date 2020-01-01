@@ -4,8 +4,9 @@
 <Timeline (timelineChange)="update($event)">
 	<ng-template>
 		<StackLayout class="page page-content">
-			<ListView (pan)="onPan($event)" *ngIf="(transactions | async) else noData" [items]="transactions | async"
-				class="list-group">
+			<ListView (pan)="onPan($event)"
+				*ngIf="((transactions | async) && (transactions | async)).length else noData"
+				[items]="transactions | async" class="list-group">
 				<ng-template let-item="item">
 					<FlexboxLayout ripple (tap)="select(item.id)" flexDirection="row" alignItems="center"
 						class="list-group-item">

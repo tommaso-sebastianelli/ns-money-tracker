@@ -1,6 +1,6 @@
 import { Injectable } from "@angular/core";
 import { Observable, of, from, throwError, EMPTY } from "rxjs";
-import { filter, flatMap, scan } from "rxjs/operators";
+import { filter, flatMap, scan, first, toArray, tap } from "rxjs/operators";
 import { ITransaction } from "./models/transaction";
 import { ICategory } from "./models/category";
 import { IDataProvider } from "./data-provider";
@@ -17,12 +17,12 @@ export class DataServiceMock implements IDataProvider {
 			categoryId: 1,
 			notes: "New T-Shirt",
 			amount: 15.99,
-			datetime: new Date(1580377478000).valueOf(),
+			datetime: new Date().valueOf(),
 			wallet: 0
-		},		
+		},
 		{
 			id: 2,
-			categoryId: 2, 
+			categoryId: 2,
 			notes: "Groceries",
 			amount: 19.78,
 			datetime: new Date().valueOf(),
@@ -88,10 +88,10 @@ export class DataServiceMock implements IDataProvider {
 			id: 10,
 			categoryId: 10,
 			notes: 'Train ticket',
-			amount: 0.0,
+			amount: 2.5,
 			datetime: new Date().valueOf(),
 			wallet: 0
-		}	,
+		},
 		{
 			id: 11,
 			categoryId: 11,
@@ -197,8 +197,9 @@ export class DataServiceMock implements IDataProvider {
 		return from(this.transactions)
 			.pipe(
 				filter((item) => item.datetime >= startDate && item.datetime < endDate),
-				scan((acc, value) => [...acc, value], [])
-			);
+				toArray(),
+				tap(data => console.log(data))
+			)
 	}
 
 	getTransaction(id: number): Observable<ITransaction> {

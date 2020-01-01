@@ -9,7 +9,7 @@ import { IDataProvider } from "../core/data-provider";
 import { ANIMATIONS } from "../shared/animations";
 import { Page, View } from "tns-core-modules/ui/page/page";
 import { RouterExtensions } from "nativescript-angular/router";
-import { PanGestureEventData, GestureTypes } from "tns-core-modules/ui/gestures/gestures";
+import { PanGestureEventData } from "tns-core-modules/ui/gestures/gestures";
 
 @Component({
 	selector: "Transactions",
