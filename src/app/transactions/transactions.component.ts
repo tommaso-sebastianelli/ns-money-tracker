@@ -7,8 +7,9 @@ import { ICategory } from "../core/models/category";
 import { dataProvider } from "../app.module";
 import { IDataProvider } from "../core/data-provider";
 import { ANIMATIONS } from "../shared/animations";
-import { Page } from "tns-core-modules/ui/page/page";
+import { Page, View } from "tns-core-modules/ui/page/page";
 import { RouterExtensions } from "nativescript-angular/router";
+import { PanGestureEventData } from "tns-core-modules/ui/gestures/gestures";
 
 @Component({
 	selector: "Transactions",
@@ -32,7 +33,7 @@ export class TransactionsComponent implements OnInit {
 		private routerExtensions: RouterExtensions
 	) { }
 
-	ngOnInit(): void {
+	public ngOnInit(): void {
 		this.page.on('navigatingTo', (data) => {
 			this.fabPop = true;
 			this.cd.detectChanges();
@@ -44,36 +45,43 @@ export class TransactionsComponent implements OnInit {
 		})
 	}
 
-	getIconPath(t: ITransaction): Observable<string> {
+	public getIconPath(t: ITransaction): Observable<string> {
 		return this.data.getCategory(t.categoryId)
 			.pipe(
 				mergeMap(c => of(`~/app/images/${c.icon}.png`))
 			)
 	}
 
-	getColor(t: ITransaction): Observable<string> {
+	public getColor(t: ITransaction): Observable<string> {
 		return this.data.getCategory(t.categoryId).pipe(
 			//filter((c: ICategory) => c && !!c.color),
 			map((c: ICategory) => c.color)
 		);
 	}
 
-	getCategoryName(t: ITransaction): Observable<string> {
+	public getCategoryName(t: ITransaction): Observable<string> {
 		return this.data.getCategory(t.categoryId).pipe(
 			map(c => c.name)
 		)
 	}
 
-	update(snapshot: ICalendarSnapshot) {
+	public update(snapshot: ICalendarSnapshot) {
 		console.log(`timelineChange`);
 		this.loadTransactions(snapshot)
 			.subscribe()
 	}
 
-	select(id: number) {
+	public select(id: number) {
 		setTimeout(() => {
 			this.routerExtensions.navigate(['/', { outlets: { transactionsTab: ['transactions', 'default', id] } }]).then(() => { console.log('navigation') })
 		}, 200)
+	}
+
+	// disable vertical srolling while user swipes the timeline, which caused buggy animations
+	public onPan(args: PanGestureEventData) {
+		const disable = (args.state === 2) ? true : false;
+		console.log(`listview scrolling ${(disable ? 'enabled' : 'disabled')}`);
+		(<View>args.object).nativeView.requestDisallowInterceptTouchEvent(disable);
 	}
 
 	private loadTransactions(snapshot: ICalendarSnapshot): Observable<any> {
