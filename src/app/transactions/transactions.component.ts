@@ -9,7 +9,7 @@ import { IDataProvider } from "../core/data-provider";
 import { ANIMATIONS } from "../shared/animations";
 import { Page, View } from "tns-core-modules/ui/page/page";
 import { RouterExtensions } from "nativescript-angular/router";
-import { PanGestureEventData, GestureTypes } from "tns-core-modules/ui/gestures/gestures";
+import { PanGestureEventData } from "tns-core-modules/ui/gestures/gestures";
 
 @Component({
 	selector: "Transactions",
@@ -87,7 +87,9 @@ export class TransactionsComponent implements OnInit {
 	private loadTransactions(snapshot: ICalendarSnapshot): Observable<any> {
 		this.transactions = this.data.getAllTransactions(
 			snapshot.now.valueOf(),
-			snapshot.next.valueOf())
+			snapshot.next.valueOf()).pipe(
+				mergeMap(data => of(data.sort((t1, t2) => t2.id - t1.id)))
+			)
 
 		// return this.transactions;
 		return of(true);
