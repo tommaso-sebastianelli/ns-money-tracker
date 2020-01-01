@@ -9,7 +9,7 @@ import { IDataProvider } from "../core/data-provider";
 import { ANIMATIONS } from "../shared/animations";
 import { Page, View } from "tns-core-modules/ui/page/page";
 import { RouterExtensions } from "nativescript-angular/router";
-import { PanGestureEventData } from "tns-core-modules/ui/gestures/gestures";
+import { PanGestureEventData, GestureTypes } from "tns-core-modules/ui/gestures/gestures";
 
 @Component({
 	selector: "Transactions",
@@ -80,7 +80,7 @@ export class TransactionsComponent implements OnInit {
 	// disable vertical srolling while user swipes the timeline, which caused buggy animations
 	public onPan(args: PanGestureEventData) {
 		const disable = (args.state === 2) ? true : false;
-		console.log(`listview scrolling ${(disable ? 'enabled' : 'disabled')}`);
+		console.log(`listview scrolling ${(disable ? 'disabled' : 'enabled')}`);
 		(<View>args.object).nativeView.requestDisallowInterceptTouchEvent(disable);
 	}
 

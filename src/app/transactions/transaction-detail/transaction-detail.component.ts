@@ -8,6 +8,7 @@ import { PropertyConverter } from 'nativescript-ui-dataform';
 import { Page } from 'tns-core-modules/ui/page/page';
 import { ANIMATIONS } from '~/app/shared/animations';
 import { Frame } from 'tns-core-modules/ui/frame/frame';
+import { Toasty, ToastDuration } from 'nativescript-toasty';
 
 class CategoryConverter implements PropertyConverter {
 	categories: Array<ICategory>;
@@ -129,13 +130,25 @@ export class TransactionDetailComponent implements OnInit, AfterViewInit {
 	}
 
 	public save(): void {
-		console.log(JSON.stringify(this.transaction));		
+		console.log(JSON.stringify(this.transaction));
 		this.data.saveTransaction(this.transaction).subscribe(
 			t => {
 				console.log('transaction saved or updated: ' + JSON.stringify(t));
+				const toast = new Toasty({ text: 'Toast message' });
+				this.showMessage('Saved');
 				this.frame.goBack();
 			},
 			err => console.error(err)
 		);
+	}
+
+	private showMessage(msg: string) {
+		const toast = new Toasty({
+			text: msg,
+			backgroundColor: '#555',
+			duration: ToastDuration.SHORT,
+			yAxisOffset: 75
+		});
+		toast.show();
 	}
 }
