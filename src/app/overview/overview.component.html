@@ -2,7 +2,17 @@
     <Label class="action-bar-title" text="Overview"></Label>
 </ActionBar>
 
-<GridLayout class="page page-content">
-    <Label class="page-icon fa" text="&#xf023;"></Label>
-    <Label class="page-placeholder" text="Not Available yet."></Label>
+<GridLayout rows="*, *" tkExampleTitle tkToggleNavButton>
+    <RadPieChart [@pop]="chartPop" allowAnimation="true" row="0">
+        <ng-container *ngFor="let c of categories">
+            <DonutSeries tkPieSeries seriesName="customPalette" selectionMode="none" expandRadius="0.4"
+                outerRadiusFactor="0.8" innerRadiusFactor="0.4" valueProperty="amount" legendLabel="name"
+                [items]="source">
+            </DonutSeries>
+        </ng-container>
+        <Palette tkPiePalette seriesName="customPalette">
+            <PaletteEntry *ngFor="let c of categories" tkPiePaletteEntry strokeWidth="0" [fillColor]="c.color">
+            </PaletteEntry>
+        </Palette>
+    </RadPieChart>
 </GridLayout>

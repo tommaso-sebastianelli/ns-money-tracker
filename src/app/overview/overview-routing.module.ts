@@ -3,9 +3,16 @@ import { Routes } from "@angular/router";
 import { NativeScriptRouterModule } from "nativescript-angular/router";
 
 import { OverviewComponent } from "./overview.component";
+import { CategoriesResolver } from "../core/resolvers/categories.resolver";
 
 const routes: Routes = [
-    { path: "default", component: OverviewComponent }
+    {
+        path: "default",
+        component: OverviewComponent,
+        resolve: {
+            categories: CategoriesResolver
+        }
+    }
 ];
 
 @NgModule({
