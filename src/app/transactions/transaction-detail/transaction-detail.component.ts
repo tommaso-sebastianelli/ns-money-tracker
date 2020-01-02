@@ -9,6 +9,7 @@ import { Page } from 'tns-core-modules/ui/page/page';
 import { ANIMATIONS } from '~/app/shared/animations';
 import { Frame } from 'tns-core-modules/ui/frame/frame';
 import { Toasty, ToastDuration } from 'nativescript-toasty';
+import * as dialogs from "tns-core-modules/ui/dialogs";
 
 class CategoryConverter implements PropertyConverter {
 	categories: Array<ICategory>;
@@ -140,6 +141,29 @@ export class TransactionDetailComponent implements OnInit, AfterViewInit {
 			},
 			err => console.error(err)
 		);
+	}
+
+	public delete() {
+		let options = {
+			title: "Confirm",
+			message: "Are you sure you want to delete this transaction?",
+			okButtonText: "Yes",
+			cancelButtonText: "No",
+			neutralButtonText: "Cancel"
+		};
+
+		dialogs.confirm(options).then((result: boolean) => {
+			this.data.deleteTransaction(this.transaction)
+				.subscribe(
+					t => {
+						console.log('transaction deleted');
+						const toast = new Toasty({ text: 'Toast message' });
+						this.showMessage('Deleted');
+						this.frame.goBack();
+					},
+					err => console.error(err)
+				)
+		});
 	}
 
 	private showMessage(msg: string) {

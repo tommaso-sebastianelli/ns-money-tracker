@@ -14,7 +14,7 @@ import { AnimationCurve } from "tns-core-modules/ui/enums";
 	styleUrls: ["./timeline.component.scss"],
 	providers: [TimelineService]
 })
-export class TimelineComponent implements OnInit {
+export class TimelineComponent {
 	@ViewChild("prev", { static: true }) prev: ElementRef;
 	@ViewChild("now", { static: true }) now: ElementRef;
 	@ViewChild("next", { static: true }) next: ElementRef;
@@ -40,10 +40,9 @@ export class TimelineComponent implements OnInit {
 		public page: Page
 	) { }
 
-	ngOnInit(): void {
-		this.page.on('navigatingTo', () => {
-			this.timelineChange.emit(this.calendarService.snapshot);
-		});
+	public loaded(): void {
+		console.log('timeline loaded.');
+		this.timelineChange.emit(this.calendarService.snapshot);
 	}
 
 	public onPan(args: PanGestureEventData): void {

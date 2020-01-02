@@ -217,8 +217,21 @@ export class DataServiceMock implements IDataProvider {
 			this.transactions.push(t);
 		} else {
 			const i = this.transactions.findIndex(_t => _t.id == t.id);
+			if (i < 0) {
+				throwError('not found!');
+			}
 			this.transactions.splice(i, 1, t);
 		}
 		return of(t);
+	}
+
+	deleteTransaction(t: ITransaction): Observable<null> {
+		const i = this.transactions.findIndex(_t => _t.id == t.id);
+		if (i < 0) {
+			throwError('not found!');
+		}
+		this.transactions.splice(i, 1);
+
+		return of(null);
 	}
 }

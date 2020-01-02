@@ -1,4 +1,4 @@
-<StackLayout class="input-field">
+<StackLayout class="input-field" (loaded)="loaded($event)">
 	<GridLayout columns="*, *, *" class="header text-center" orientation="horizontal" height="30"
 		backgroundColor="lightgray">
 		<Label #prev row="0" col="0" verticalAlignment="center"

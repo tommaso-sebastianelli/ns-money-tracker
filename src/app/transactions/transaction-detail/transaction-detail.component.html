@@ -1,19 +1,24 @@
 <ActionBar class="action-bar">
-	<Label class="action-bar-title" text="Transaction"></Label>
+	<GridLayout columns="*, 50">
+		<Label row="0" col="0" class="action-bar-title" text="Transaction"></Label>
+		<Image (tap)="delete()" row="0" col="1" height="20" src="~/app/images/trash.png" class="fa t-36"></Image>
+	</GridLayout>
 </ActionBar>
 <RadDataForm tkExampleTitle tkToggleNavButton #detailForm [source]="transaction" [metadata]="metadata">
 	<TKEntityProperty tkDataFormProperty name="categoryId" displayName="Category" index="0"
 		[valuesProvider]="categoriesNames" [converter]="categoryConverter" required="true">
 		<TKPropertyEditor tkEntityPropertyEditor type="Picker"></TKPropertyEditor>
 	</TKEntityProperty>
-	<TKEntityProperty tkDataFormProperty name="datetime" displayName="Date" index="1" [converter]="dateConverter"  required="true">
+	<TKEntityProperty tkDataFormProperty name="datetime" displayName="Date" index="1" [converter]="dateConverter"
+		required="true">
 		<TKPropertyEditor tkEntityPropertyEditor type="DatePicker"></TKPropertyEditor>
 	</TKEntityProperty>
-	<TKEntityProperty tkDataFormProperty name="amount" displayName="Amount" index="2"  required="true">
+	<TKEntityProperty tkDataFormProperty name="amount" displayName="Amount" index="2" required="true">
 		<TKPropertyEditor tkEntityPropertyEditor type="Decimal"></TKPropertyEditor>
 	</TKEntityProperty>
 	<TKEntityProperty tkDataFormProperty name="notes" displayName="Notes" index="3">
 		<TKPropertyEditor tkEntityPropertyEditor type="MultilineText"></TKPropertyEditor>
 	</TKEntityProperty>
 </RadDataForm>
-<FAB [@pop]="fabPop" [style.display]="formValid()" (tap)="save()" rippleColor="#f1f1f1" icon="~/app/images/tick.png" class="fab-button"></FAB>
+<FAB [@pop]="fabPop" [style.display]="formValid()" (tap)="save()" rippleColor="#f1f1f1" icon="~/app/images/tick.png"
+	class="fab-button"></FAB>
