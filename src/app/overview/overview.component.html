@@ -1,18 +1,51 @@
 <ActionBar class="action-bar">
     <Label class="action-bar-title" text="Overview"></Label>
 </ActionBar>
-
-<GridLayout rows="*, *" tkExampleTitle tkToggleNavButton>
-    <RadPieChart [@pop]="chartPop" allowAnimation="true" row="0">
-        <ng-container *ngFor="let c of categories">
-            <DonutSeries tkPieSeries seriesName="customPalette" selectionMode="none" expandRadius="0.4"
-                outerRadiusFactor="0.8" innerRadiusFactor="0.4" valueProperty="amount" legendLabel="name"
-                [items]="source">
-            </DonutSeries>
-        </ng-container>
-        <Palette tkPiePalette seriesName="customPalette">
-            <PaletteEntry *ngFor="let c of categories" tkPiePaletteEntry strokeWidth="0" [fillColor]="c.color">
-            </PaletteEntry>
-        </Palette>
-    </RadPieChart>
-</GridLayout>
+<Timeline (timelineChange)="update($event)" class="page-content">
+    <ng-template>
+        <GridLayout *ngIf="(transactions | async) else noData" rows="250, *" tkExampleTitle tkToggleNavButton>
+            <StackLayout row="0">
+                <RadPieChart [@pop]="chartPop" allowAnimation="true">
+                    <DonutSeries *ngFor="let c of categories" tkPieSeries seriesName="customPalette"
+                        selectionMode="none" expandRadius="0.4" outerRadiusFactor="0.8" innerRadiusFactor="0.4"
+                        valueProperty="amount" legendLabel="name" [items]="source">
+                    </DonutSeries>
+                    <Palette tkPiePalette seriesName="customPalette">
+                        <PaletteEntry *ngFor="let c of categories" tkPiePaletteEntry strokeWidth="0"
+                            [fillColor]="c.color">
+                        </PaletteEntry>
+                    </Palette>
+                </RadPieChart>
+            </StackLayout>
+            <StackLayout row="0" class="pan-layer">
+                <Label height="250" (tap)="!!false" text=""></Label>
+            </StackLayout>
+            <StackLayout row="1">
+                <ListView (pan)="onPan($event)" [items]="categories" class="list-group" separatorColor="#CCC">
+                    <ng-template let-item="item">
+                        <FlexboxLayout (tap)="!!false" ripple flexDirection="row" alignItems="center"
+                            class="list-group-item">
+                            <StackLayout [style.background]="item.color" class="image-box">
+                                <Image src="{{getIconPath(item)}}" class="icon" height="30" width="30" decodeWidth="50"
+                                    decodeHeight="50" loadMode="async"></Image>
+                            </StackLayout>
+                            <FlexboxLayout class="item item-group" flexDirection="column">
+                                <Label class="sub-item heading" ccflexGrow="1" row="0" col="1"
+                                    [text]="item.name"></Label>
+                            </FlexboxLayout>
+                            <Label class="amount item text-right" flexGrow="1" row="0" col="1"
+                                [text]="item.amount | currency">
+                            </Label>
+                        </FlexboxLayout>
+                    </ng-template>
+                </ListView>
+            </StackLayout>
+        </GridLayout>
+        <ng-template #noData>
+            <GridLayout class="placeholder">
+                <Label class="page-icon fa" text="&#xf057;"></Label>
+                <Label class="page-placeholder" text="No Transactions here."></Label>
+            </GridLayout>
+        </ng-template>
+    </ng-template>
+</Timeline>

@@ -4,34 +4,6 @@
 	.list-group {
 		position: absolute;
 		height: 100%;
-
-		.image-box {
-			margin-right: 16px;
-			border-radius: 100%;
-
-			.icon {
-				margin: 20px;
-			}
-		}
-
-		.list-group-item {
-			.item-group {
-				.heading {
-					font-weight: 400;
-				}
-
-				.sub-heading {
-					font-weight: 400;
-					font-size: small;
-					color: #666;
-				}
-			}
-
-			.amount {
-				font-size: 16px;
-				font-weight: 400;
-			}
-		}
 	}
 
 }

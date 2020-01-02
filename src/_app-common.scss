@@ -9,8 +9,8 @@
     font-size: 36;
 }
 
-body{
-	color: #111;
+body {
+    color: #111;
 }
 
 // Common page class
@@ -29,6 +29,38 @@ body{
         color: $page-icon-color;
         margin-top: 20%;
     }
+
+    .list-group {
+        .image-box {
+            margin-right: 16px;
+            border-radius: 100%;
+
+            .icon {
+                margin: 20px;
+            }
+        }
+
+        .list-group-item {
+            .item-group {
+                .heading {
+                    color: #444;
+                    font-weight: 400;
+                }
+
+                .sub-heading {
+                    font-weight: 400;
+                    font-size: small;
+                    color: #666;
+                }
+            }
+
+            .amount {
+                color: #444;
+                font-size: 16px;
+                font-weight: 500;
+            }
+        }
+    }
 }
 
 //Action bar
@@ -38,13 +70,14 @@ ActionBar .action-bar-title {
 
 // FAB Button
 .fab-button {
-	height: 70;
-	width: 70; /// this is required on iOS - Android does not require width so you might need to adjust styles
-	margin: 15;
-	background-color: #ff4081;
-	horizontal-align: right;
-	vertical-align: bottom;
-	.icon{
-		color: white;
-	}
-  }
+    height: 70;
+    width: 70; /// this is required on iOS - Android does not require width so you might need to adjust styles
+    margin: 15;
+    background-color: #ff4081;
+    horizontal-align: right;
+    vertical-align: bottom;
+
+    .icon {
+        color: white;
+    }
+}

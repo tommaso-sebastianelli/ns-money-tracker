@@ -52,6 +52,7 @@ export class TimelineComponent implements OnInit {
 		const triggerDragDistance = screenWidth / 3;
 		const slideCoeff = (1 / (Math.abs(deltaX) * (screenWidth / 25000)));
 		console.log(slideCoeff);
+
 		if (state === 2) {
 			const conf = { translate: { x: deltaX / 2, y: 0 }, duration: 0, opacity: 1 };
 			(<View>args.object).animate({ ...conf, translate: { x: deltaX, y: 0 }, opacity: slideCoeff });

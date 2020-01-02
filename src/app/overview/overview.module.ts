@@ -4,12 +4,14 @@ import { NativeScriptUIChartModule } from "nativescript-ui-chart/angular";
 
 import { OverviewRoutingModule } from "./overview-routing.module";
 import { OverviewComponent } from "./overview.component";
+import { SharedModule } from "../shared/shared.module";
 
 @NgModule({
     imports: [
         OverviewRoutingModule,
         NativeScriptCommonModule,
-        NativeScriptUIChartModule
+        NativeScriptUIChartModule,
+        SharedModule
     ],
     declarations: [
         OverviewComponent
