@@ -1,11 +1,11 @@
 import { Component, OnInit } from "@angular/core";
 
 @Component({
-    selector: "wallets",
-	templateUrl: "./wallets.component.html",
-	styleUrls: ['./wallets.component.scss']
+    selector: "settings",
+    templateUrl: "./settings.component.html",
+    styleUrls: ['./settings.component.scss']
 })
-export class WalletsComponent implements OnInit {
+export class SettingsComponent implements OnInit {
     constructor() {
         // Use the constructor to inject services.
     }

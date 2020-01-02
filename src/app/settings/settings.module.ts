@@ -1,19 +1,19 @@
 import { NgModule, NO_ERRORS_SCHEMA } from "@angular/core";
 import { NativeScriptCommonModule } from "nativescript-angular/common";
 
-import { WalletsRoutingModule } from "./wallets-routing.module";
-import { WalletsComponent } from "./wallets.component";
+import { SettingsRoutingModule } from "./settings-routing.module";
+import { SettingsComponent } from "./settings.component";
 
 @NgModule({
     imports: [
-        WalletsRoutingModule,
+        SettingsRoutingModule,
         NativeScriptCommonModule
     ],
     declarations: [
-        WalletsComponent
+        SettingsComponent
     ],
     schemas: [
         NO_ERRORS_SCHEMA
     ]
 })
-export class WalletsModule { }
+export class SettingsModule { }

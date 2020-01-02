@@ -2,14 +2,14 @@ import { NgModule } from "@angular/core";
 import { Routes } from "@angular/router";
 import { NativeScriptRouterModule } from "nativescript-angular/router";
 
-import { WalletsComponent } from "./wallets.component";
+import { SettingsComponent } from "./settings.component";
 
 const routes: Routes = [
-    { path: "default", component: WalletsComponent }
+    { path: "default", component: SettingsComponent }
 ];
 
 @NgModule({
     imports: [NativeScriptRouterModule.forChild(routes)],
     exports: [NativeScriptRouterModule]
 })
-export class WalletsRoutingModule { }
+export class SettingsRoutingModule { }
