@@ -10,9 +10,10 @@
 
             .list-group-item {
                 .chip {
+                    font-size: small;
                     margin: 0 32px;
-                    padding: 4px 26px;
-                    background: #CCC;
+                    padding: 0 26px;
+                    background: #DDD;
                     border-radius: 32px;
                 }
             }
