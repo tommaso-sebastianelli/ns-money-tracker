@@ -1,5 +1,5 @@
 import { Component, OnInit, ElementRef, ViewChild, ContentChild, TemplateRef, Output, EventEmitter, AfterViewInit, ViewChildren, Directive, Input, QueryList } from "@angular/core";
-import { CalendarService, ICalendarSnapshot } from "../../core/calendar.service";
+import { TimelineService, ICalendarSnapshot } from "./timeline.service";
 import { Observable, forkJoin, throwError } from "rxjs";
 import { PanGestureEventData } from "tns-core-modules/ui/gestures/gestures";
 import { screen } from "tns-core-modules/platform";
@@ -11,7 +11,8 @@ import { AnimationCurve } from "tns-core-modules/ui/enums";
 @Component({
 	selector: "Timeline",
 	templateUrl: "./timeline.component.html",
-	styleUrls: ["./timeline.component.scss"]
+	styleUrls: ["./timeline.component.scss"],
+	providers: [TimelineService]
 })
 export class TimelineComponent implements OnInit {
 	@ViewChild("prev", { static: true }) prev: ElementRef;
@@ -34,7 +35,7 @@ export class TimelineComponent implements OnInit {
 	@Output() timelineChange: EventEmitter<ICalendarSnapshot> = new EventEmitter();
 
 	constructor(// tslint:disable-next-line: align
-		public calendarService: CalendarService,
+		public calendarService: TimelineService,
 		// tslint:disable-next-line: align
 		public page: Page
 	) { }

@@ -1,5 +1,5 @@
 import { Injectable } from "@angular/core";
-import { CoreModule } from "./core.module";
+import { CoreModule } from "../../core/core.module";
 
 export interface ICalendarSnapshot {
     previous: Date;
@@ -7,10 +7,8 @@ export interface ICalendarSnapshot {
     next: Date;
 }
 
-@Injectable({
-    providedIn: CoreModule
-})
-export class CalendarService {
+@Injectable()
+export class TimelineService {
 
     private _snapshot: ICalendarSnapshot;
 
@@ -22,13 +20,13 @@ export class CalendarService {
         const next: Date = new Date(date);
         const prev: Date = new Date(date);
 
-		// if(date.getMonth() === 11){
-		// 	next.setFullYear(date.getFullYear() + 1);
-		// }
-		next.setMonth(date.getMonth() + 1);
-		// if(date.getMonth() === 1){
-		// 	prev.setFullYear(date.getFullYear() - 1);
-		// }
+        // if(date.getMonth() === 11){
+        // 	next.setFullYear(date.getFullYear() + 1);
+        // }
+        next.setMonth(date.getMonth() + 1);
+        // if(date.getMonth() === 1){
+        // 	prev.setFullYear(date.getFullYear() - 1);
+        // }
         prev.setMonth(date.getMonth() - 1);
 
         this._snapshot = {

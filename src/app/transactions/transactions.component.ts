@@ -1,5 +1,5 @@
 import { Component, OnInit, ChangeDetectorRef, ElementRef, ViewChild, Inject } from "@angular/core";
-import { ICalendarSnapshot } from "../core/calendar.service";
+import { ICalendarSnapshot } from "../shared/timeline/timeline.service";
 import { Observable, of } from "rxjs";
 import { map, mergeMap } from "rxjs/operators";
 import { ITransaction } from "../core/models/transaction";
@@ -33,16 +33,16 @@ export class TransactionsComponent implements OnInit {
 		private routerExtensions: RouterExtensions
 	) { }
 
-	public ngOnInit(): void {
-		this.page.on('navigatingTo', (data) => {
-			this.fabPop = true;
-			this.cd.detectChanges();
-		});
+	public ngOnInit(): void { }
 
-		this.page.on('navigatingFrom', (data) => {
-			this.fabPop = false;
-			this.cd.detectChanges();
-		})
+	public loaded() {
+		console.log('transactions page loaded');
+		this.fabPop = true;
+	}
+
+	public unloaded() {
+		this.fabPop = false;
+		console.log('transactions page unloaded');
 	}
 
 	public getIconPath(t: ITransaction): Observable<string> {

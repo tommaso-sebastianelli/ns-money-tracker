@@ -1,27 +1,30 @@
 <ActionBar class="action-bar">
     <Label class="action-bar-title" text="Overview"></Label>
 </ActionBar>
-<Timeline (timelineChange)="update($event)" class="page-content">
+<Timeline (timelineChange)="update($event)" class="page-content" (loaded)="loaded($event)"
+    (unloaded)="unloaded($event)">
     <ng-template>
-        <GridLayout *ngIf="(transactions | async) else noData" rows="250, *" tkExampleTitle tkToggleNavButton>
+        <GridLayout [style.height]="(transactions && transactions.length > 0) ? 'auto': 0" rows="250, *">
             <StackLayout row="0">
-                <RadPieChart [@pop]="chartPop" allowAnimation="true">
+                <RadPieChart [@pop]="chartPop">
                     <DonutSeries *ngFor="let c of categories" tkPieSeries seriesName="customPalette"
                         selectionMode="none" expandRadius="0.4" outerRadiusFactor="0.8" innerRadiusFactor="0.4"
                         valueProperty="amount" legendLabel="name" [items]="source">
                     </DonutSeries>
                     <Palette tkPiePalette seriesName="customPalette">
-                        <PaletteEntry *ngFor="let c of categories" tkPiePaletteEntry strokeWidth="0"
+                        <PaletteEntry *ngFor="let c of overviewCategories" tkPiePaletteEntry strokeWidth="0"
                             [fillColor]="c.color">
                         </PaletteEntry>
                     </Palette>
                 </RadPieChart>
+
             </StackLayout>
             <StackLayout row="0" class="pan-layer">
                 <Label height="250" (tap)="!!false" text=""></Label>
             </StackLayout>
-            <StackLayout row="1">
-                <ListView (pan)="onPan($event)" [items]="categories" class="list-group" separatorColor="#CCC">
+            <StackLayout class="categories" row="1">
+                <ListView (pan)="onPan($event)" [items]="overviewCategories | validCategories" class="list-group"
+                    separatorColor="#CCC">
                     <ng-template let-item="item">
                         <FlexboxLayout (tap)="!!false" ripple flexDirection="row" alignItems="center"
                             class="list-group-item">
@@ -30,11 +33,12 @@
                                     decodeHeight="50" loadMode="async"></Image>
                             </StackLayout>
                             <FlexboxLayout class="item item-group" flexDirection="column">
-                                <Label class="sub-item heading" ccflexGrow="1" row="0" col="1"
-                                    [text]="item.name"></Label>
+                                <Label class="sub-item heading" ccflexGrow="1" [text]="item.name"></Label>
                             </FlexboxLayout>
-                            <Label class="amount item text-right" flexGrow="1" row="0" col="1"
-                                [text]="item.amount | currency">
+                            <FlexboxLayout class="item item-group" flexDirection="column">
+                                <Label class="sub-item chip" ccflexGrow="1" [text]="0"></Label>
+                            </FlexboxLayout>
+                            <Label class="amount item text-right" flexGrow="1" [text]="item.amount | currency">
                             </Label>
                         </FlexboxLayout>
                     </ng-template>

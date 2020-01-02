@@ -7,10 +7,8 @@ import { ITransaction } from "../core/models/transaction";
 import { ActivatedRoute } from "@angular/router";
 import { Page, View } from "tns-core-modules/ui/page/page";
 import { ANIMATIONS } from "../shared/animations";
-import { Observable } from "rxjs/internal/Observable";
-import { mergeMap, tap } from "rxjs/operators";
-import { of } from "rxjs";
-import { ICalendarSnapshot } from "../core/calendar.service";
+import { tap } from "rxjs/operators";
+import { ICalendarSnapshot } from "../shared/timeline/timeline.service";
 import { PanGestureEventData } from "tns-core-modules/ui/gestures/gestures";
 
 @Component({
@@ -20,39 +18,33 @@ import { PanGestureEventData } from "tns-core-modules/ui/gestures/gestures";
     animations: ANIMATIONS
 })
 export class OverviewComponent implements OnInit {
-    private _source: ObservableArray<ICategory>;
-    private _categories: Array<ICategory>;
-    private transactions: Observable<Array<ITransaction>>;
-
+    public source: ObservableArray<ICategory>;
+    public categories: Array<ICategory>;
+    public overviewCategories: Array<ICategory> = [];
+    public transactions: Array<ITransaction>;
     public chartPop: boolean = false;
 
     constructor(
         @Inject(dataProvider) private data: IDataProvider,
         private route: ActivatedRoute,
-        public page: Page,
-        public cd: ChangeDetectorRef
+        public cd: ChangeDetectorRef,
+        public page: Page
     ) { }
 
-    get source(): ObservableArray<ICategory> {
-        return this._source;
-    }
-
-    get categories(): Array<ICategory> {
-        return this._categories;
-    }
-
     ngOnInit(): void {
-        this._categories = this.route.snapshot && this.route.snapshot.data && this.route.snapshot.data.categories;
+        this.categories = this.route.snapshot && this.route.snapshot.data && this.route.snapshot.data.categories;
+        this.transactions = [];
+    }
 
-        this.page.on('navigatingTo', (data) => {
-            this.chartPop = true;
-            this.cd.detectChanges();
-        });
+    public loaded() {
+        this.chartPop = true;
+        this.cd.detectChanges();
+        console.log('overview page loaded');
+    }
 
-        this.page.on('navigatingFrom', (data) => {
-            this.chartPop = false;
-            this.cd.detectChanges();
-        })
+    public unloaded() {
+        this.chartPop = false;
+        console.log('overview page unloaded');
     }
 
     public getIconPath(c: ICategory): string {
@@ -60,24 +52,34 @@ export class OverviewComponent implements OnInit {
     }
 
     public update(snapshot: ICalendarSnapshot) {
-        this.transactions = this.data.getAllTransactions(snapshot.now.valueOf(), snapshot.next.valueOf())
+        console.log('overview updating');
+
+        this.data.getAllTransactions(snapshot.now.valueOf(), snapshot.next.valueOf())
             .pipe(
-                tap((data: Array<ITransaction>) => {
-                    const categories = this._categories
+                tap((transactions: Array<ITransaction>) => {
+                    this.transactions = transactions;
+                    this.overviewCategories = this.categories
                         .map(c => {
-                            c.amount = data
+                            c.amount = transactions
                                 .filter(t => t.categoryId === c.id)
                                 .map(t => t.amount)
                                 .reduce((acc: number, amount: number) => acc + amount, 0);
 
                             return c;
                         })
-                        .filter(c => c.amount > 0);
 
-                    this._source = new ObservableArray(categories);
+                    // PieChart Bug:
+                    // https://github.com/tommaso-sebastianelli/ns-money-tracker/blob/develop/src/app/overview/overview.component.html
+                    this.overviewCategories.push(<ICategory>{
+                        id: -1,
+                        amount: 0.001
+                    })
+
+                    this.source = new ObservableArray(this.overviewCategories);
                 }
                 ))
-
+            .subscribe()
+            .unsubscribe();
     }
 
     // disable vertical srolling while user swipes the timeline, which caused buggy animations

@@ -1,3 +1,13 @@
-.page {
+.page-content {
     height: 100vh;
+
+    .categories {
+        position: relative;
+
+        .list-group {
+            position: absolute;
+            ;
+            height: 100%;
+        }
+    }
 }

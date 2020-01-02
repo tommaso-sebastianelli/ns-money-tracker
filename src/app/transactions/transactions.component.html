@@ -1,7 +1,7 @@
 <ActionBar class="action-bar">
 	<Label class="action-bar-title" text="Transactions"></Label>
 </ActionBar>
-<Timeline (timelineChange)="update($event)">
+<Timeline (timelineChange)="update($event)" (loaded)="loaded($event)" (unloaded)="unloaded($event)">
 	<ng-template>
 		<StackLayout class="page page-content" (tap)="!!false">
 			<ListView (pan)="onPan($event)"
@@ -35,4 +35,5 @@
 		</StackLayout>
 	</ng-template>
 </Timeline>
-<FAB [@pop]="fabPop" [nsRouterLink]="'new'" rippleColor="#f1f1f1" icon="~/app/images/plus.png" class="fab-button"></FAB>
+<FAB [@pop]="fabPop" [nsRouterLink]="'new'" rippleColor="#f1f1f1" icon="~/app/images/plus.png" class="fab-button">
+</FAB>
