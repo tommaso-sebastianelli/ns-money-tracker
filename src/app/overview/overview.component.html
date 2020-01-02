@@ -32,13 +32,13 @@
                                 <Image src="{{getIconPath(item)}}" class="icon" height="30" width="30" decodeWidth="50"
                                     decodeHeight="50" loadMode="async"></Image>
                             </StackLayout>
-                            <FlexboxLayout class="item item-group" flexDirection="column">
-                                <Label class="sub-item heading" ccflexGrow="1" [text]="item.name"></Label>
+                            <FlexboxLayout flexGrow="1" class="item item-group" flexDirection="column">
+                                <Label class="sub-item heading" flexGrow="1" [text]="item.name"></Label>
                             </FlexboxLayout>
-                            <FlexboxLayout class="item item-group" flexDirection="column">
-                                <Label class="sub-item chip" ccflexGrow="1" [text]="0"></Label>
-                            </FlexboxLayout>
-                            <Label class="amount item text-right" flexGrow="1" [text]="item.amount | currency">
+                            <Label class="sub-item chip text-right" [style.background]="green" flexGrow="0"
+                                [text]="item.transactionsTotal"></Label>
+                            <Label width="75" class="amount item text-right" flexGrow="0"
+                                [text]="item.amount | currency">
                             </Label>
                         </FlexboxLayout>
                     </ng-template>

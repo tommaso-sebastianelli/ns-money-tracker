@@ -65,6 +65,8 @@ export class OverviewComponent implements OnInit {
                                 .map(t => t.amount)
                                 .reduce((acc: number, amount: number) => acc + amount, 0);
 
+                            c.transactionsTotal = transactions.filter(t => t.categoryId === c.id).length;
+
                             return c;
                         })
 

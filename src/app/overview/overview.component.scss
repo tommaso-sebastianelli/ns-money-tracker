@@ -6,8 +6,16 @@
 
         .list-group {
             position: absolute;
-            ;
             height: 100%;
+
+            .list-group-item {
+                .chip {
+                    margin: 0 32px;
+                    padding: 4px 26px;
+                    background: #CCC;
+                    border-radius: 32px;
+                }
+            }
         }
     }
 }
