@@ -1,6 +1,10 @@
 # ns-money-tracker
 A demo android app created with Nativescript and Angular for budgeting.
 
+<p align="center">
+<img src="https://github.com/tommaso-sebastianelli/ns-money-tracker/blob/master/screenshots/screen_1.png" width="256"><a>     </a><img src="https://github.com/tommaso-sebastianelli/ns-money-tracker/blob/master/screenshots/screen_2.png" width="256">
+</p>
+
 # Demo
 
 ##### Use NativeScript Playground app and scan the QR code above to preview the application on your device.
