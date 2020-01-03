@@ -14,9 +14,13 @@ export class DataServiceMock implements IDataProvider {
 	private CURRENT_YEAR = new Date().getFullYear();
 	private CURRENT_MONTH = new Date().getMonth();
 
+	private randomId() {
+		return Math.floor(Math.random() * 100) + 1;
+	}
+
 	private ACTUAL_MONTH_DATA: Array<ITransaction> = [
 		{
-			id: 1,
+			id: this.randomId(),
 			categoryId: 4,
 			notes: "room rent",
 			amount: 300.00,
@@ -24,7 +28,7 @@ export class DataServiceMock implements IDataProvider {
 			wallet: 0
 		},
 		{
-			id: 2,
+			id: this.randomId(),
 			categoryId: 10,
 			notes: "bus ticket",
 			amount: 2.00,
@@ -32,7 +36,7 @@ export class DataServiceMock implements IDataProvider {
 			wallet: 0
 		},
 		{
-			id: 3,
+			id: this.randomId(),
 			categoryId: 5,
 			notes: "grill",
 			amount: 35.90,
@@ -40,7 +44,7 @@ export class DataServiceMock implements IDataProvider {
 			wallet: 0
 		},
 		{
-			id: 4,
+			id: this.randomId(),
 			categoryId: 2,
 			notes: "",
 			amount: 37.90,
@@ -48,7 +52,7 @@ export class DataServiceMock implements IDataProvider {
 			wallet: 0
 		},
 		{
-			id: 5,
+			id: this.randomId(),
 			categoryId: 10,
 			notes: "bus ticket",
 			amount: 2.00,
@@ -56,7 +60,7 @@ export class DataServiceMock implements IDataProvider {
 			wallet: 0
 		},
 		{
-			id: 6,
+			id: this.randomId(),
 			categoryId: 2,
 			notes: "",
 			amount: 79.90,
@@ -65,9 +69,59 @@ export class DataServiceMock implements IDataProvider {
 		}
 	];
 
-	// private PREV_MONTH_DATA: Array<ITransaction> = [];
+	private readonly prevMonthDate = new Date(this.CURRENT_YEAR, this.CURRENT_MONTH - 1, 1).valueOf();
+	private PREV_MONTH_DATA: Array<ITransaction> = [
+		{
+			id: this.randomId(),
+			categoryId: 4,
+			notes: "room rent",
+			amount: 300.00,
+			datetime: this.prevMonthDate,
+			wallet: 0
+		},
+		{
+			id: this.randomId(),
+			categoryId: 5,
+			notes: "sushi",
+			amount: 52.90,
+			datetime: this.prevMonthDate,
+			wallet: 0
+		},
+		{
+			id: this.randomId(),
+			categoryId: 2,
+			notes: "",
+			amount: 19.90,
+			datetime: this.prevMonthDate,
+			wallet: 0
+		},
+		{
+			id: this.randomId(),
+			categoryId: 9,
+			notes: "new laptop",
+			amount: 799.00,
+			datetime: this.prevMonthDate,
+			wallet: 0
+		},
+		{
+			id: this.randomId(),
+			categoryId: 2,
+			notes: "",
+			amount: 85.40,
+			datetime: this.prevMonthDate,
+			wallet: 0
+		},
+		{
+			id: this.randomId(),
+			categoryId: 2,
+			notes: "",
+			amount: 15.40,
+			datetime: this.prevMonthDate,
+			wallet: 0
+		}
+	];
 
-	private transactions = [...this.ACTUAL_MONTH_DATA];
+	private transactions = [...this.PREV_MONTH_DATA, ...this.ACTUAL_MONTH_DATA];
 
 	/* TODO:
 	Clothing
@@ -179,7 +233,7 @@ export class DataServiceMock implements IDataProvider {
 
 	saveTransaction(t: ITransaction): Observable<ITransaction> {
 		if (!t.id) {
-			t.id = this.transactions.length + 1;
+			t.id = this.randomId();
 			this.transactions.push(t);
 		} else {
 			const i = this.transactions.findIndex(_t => _t.id == t.id);
