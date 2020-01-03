@@ -1,0 +1,39 @@
+<ActionBar class="action-bar">
+	<Label class="action-bar-title" text="Transactions"></Label>
+</ActionBar>
+<Timeline (timelineChange)="update($event)" (loaded)="loaded($event)" (unloaded)="unloaded($event)">
+	<ng-template>
+		<StackLayout class="page page-content" (tap)="!!false">
+			<ListView (pan)="onPan($event)"
+				*ngIf="((transactions | async) != null && (transactions | async)).length else noData"
+				[items]="transactions | async" class="list-group" separatorColor="#CCC">
+				<ng-template let-item="item">
+					<FlexboxLayout ripple (tap)="select(item.id)" flexDirection="row" alignItems="center"
+						class="list-group-item">
+						<StackLayout [style.background]="(getColor(item) | async)" class="image-box">
+							<Image src="{{getIconPath(item) | async}}" class="icon" height="30" width="30"
+								decodeWidth="50" decodeHeight="50" loadMode="async"></Image>
+						</StackLayout>
+						<FlexboxLayout class="item item-group" flexDirection="column">
+							<Label class="sub-item heading" ccflexGrow="1" row="0" col="1"
+								[text]="getCategoryName(item) | async"></Label>
+							<Label class="sub-item sub-heading" *ngIf="item.notes && item.notes.length" ccflexGrow="1"
+								flexShrink="1" row="0" col="1" [text]="item.notes"></Label>
+						</FlexboxLayout>
+						<Label class="amount item text-right" flexGrow="1" row="0" col="1"
+							[text]="item.amount | currency">
+						</Label>
+					</FlexboxLayout>
+				</ng-template>
+			</ListView>
+			<ng-template #noData>
+				<GridLayout class="placeholder">
+					<Label class="page-icon fa" text="&#xf057;"></Label>
+					<Label class="page-placeholder" text="No Transactions here."></Label>
+				</GridLayout>
+			</ng-template>
+		</StackLayout>
+	</ng-template>
+</Timeline>
+<FAB [@pop]="fabPop" [nsRouterLink]="'new'" rippleColor="#f1f1f1" icon="~/app/images/plus.png" class="fab-button">
+</FAB>

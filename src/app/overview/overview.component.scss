@@ -1,0 +1,22 @@
+.page-content {
+    height: 100vh;
+
+    .categories {
+        position: relative;
+
+        .list-group {
+            position: absolute;
+            height: 100%;
+
+            .list-group-item {
+                .chip {
+                    font-size: small;
+                    margin: 0 32px;
+                    padding: 0 26px;
+                    background: #DDD;
+                    border-radius: 32px;
+                }
+            }
+        }
+    }
+}

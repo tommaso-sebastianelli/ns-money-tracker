@@ -1,0 +1,11 @@
+.header {
+    .label {
+        font-size: 12px;
+		font-weight: 500;
+
+        &.now {
+            // font-size: 15px;
+			transform: scale(1.3);
+        }
+    }
+}

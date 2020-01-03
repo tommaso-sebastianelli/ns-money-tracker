@@ -1,0 +1,15 @@
+<StackLayout class="input-field" (loaded)="loaded($event)">
+	<GridLayout columns="*, *, *" class="header text-center" orientation="horizontal" height="30"
+		backgroundColor="lightgray">
+		<Label #prev row="0" col="0" verticalAlignment="center"
+			[text]="timelineService.snapshot.previous | date : 'MMM yyyy'" class="label"></Label>
+		<Label #now row="0" col="1" verticalAlignment="center" [text]="timelineService.snapshot.now | date : 'MMM yyyy'"
+			class="label now"></Label>
+		<Label #next row="0" col="2" verticalAlignment="center"
+			[text]="timelineService.snapshot.next | date : 'MMM yyyy'"
+			[style.visibility]="isActualMonth() ? 'hidden': 'visible'" class="label"></Label>
+	</GridLayout>
+	<GridLayout (pan)="onPan($event)">
+		<ng-template [ngTemplateOutlet]="outlet"></ng-template>
+	</GridLayout>
+</StackLayout>
