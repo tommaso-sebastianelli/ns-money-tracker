@@ -11,99 +11,65 @@ import { CoreModule } from "./core.module";
 })
 export class DataServiceMock implements IDataProvider {
 
-	private transactions = new Array<ITransaction>(
+	private CURRENT_YEAR = new Date().getFullYear();
+	private CURRENT_MONTH = new Date().getMonth();
+
+	private ACTUAL_MONTH_DATA: Array<ITransaction> = [
 		{
 			id: 1,
-			categoryId: 1,
-			notes: "New T-Shirt",
-			amount: 15.99,
+			categoryId: 4,
+			notes: "room rent",
+			amount: 300.00,
 			datetime: new Date().valueOf(),
 			wallet: 0
 		},
 		{
 			id: 2,
-			categoryId: 2,
-			notes: "Groceries",
-			amount: 19.78,
+			categoryId: 10,
+			notes: "bus ticket",
+			amount: 2.00,
 			datetime: new Date().valueOf(),
 			wallet: 0
 		},
 		{
 			id: 3,
-			categoryId: 3,
-			notes: "Table games",
-			amount: 49.00,
+			categoryId: 5,
+			notes: "grill",
+			amount: 35.90,
 			datetime: new Date().valueOf(),
 			wallet: 0
 		},
 		{
 			id: 4,
-			categoryId: 4,
-			notes: '',
-			amount: 500.0,
+			categoryId: 2,
+			notes: "",
+			amount: 37.90,
 			datetime: new Date().valueOf(),
 			wallet: 0
 		},
 		{
 			id: 5,
-			categoryId: 5,
-			notes: "Grill restaurant",
-			amount: 49.5,
+			categoryId: 10,
+			notes: "bus ticket",
+			amount: 2.00,
 			datetime: new Date().valueOf(),
 			wallet: 0
 		},
 		{
 			id: 6,
-			categoryId: 6,
-			notes: "Gym",
-			amount: 1.0,
-			datetime: new Date().valueOf(),
-			wallet: 0
-		},
-		{
-			id: 7,
-			categoryId: 7,
+			categoryId: 2,
 			notes: "",
-			amount: 69.0,
-			datetime: new Date().valueOf(),
-			wallet: 0
-		},
-		{
-			id: 8,
-			categoryId: 8,
-			notes: '',
-			amount: 208.0,
-			datetime: new Date().valueOf(),
-			wallet: 0
-		},
-		{
-			id: 9,
-			categoryId: 9,
-			notes: 'Laptop',
-			amount: 599.0,
-			datetime: new Date().valueOf(),
-			wallet: 0
-		},
-		{
-			id: 10,
-			categoryId: 10,
-			notes: 'Train ticket',
-			amount: 2.5,
-			datetime: new Date().valueOf(),
-			wallet: 0
-		},
-		{
-			id: 11,
-			categoryId: 11,
-			notes: 'Flight tickets',
-			amount: 185.0,
+			amount: 79.90,
 			datetime: new Date().valueOf(),
 			wallet: 0
 		}
-	);
+	];
 
+	// private PREV_MONTH_DATA: Array<ITransaction> = [];
 
-	/* TODO: 
+	private transactions = [...this.ACTUAL_MONTH_DATA];
+
+	/* TODO:
 	Clothing
 	Grocery
 	Hobbies
@@ -126,7 +92,7 @@ export class DataServiceMock implements IDataProvider {
 		{
 			id: 2,
 			name: "Groceries",
-			color: "#8BC34A",
+			color: "#81c784",
 			icon: "groceries"
 		},
 		{
@@ -174,7 +140,7 @@ export class DataServiceMock implements IDataProvider {
 		{
 			id: 10,
 			name: "Transportations",
-			color: "#ffa726",
+			color: "#ffb74d",
 			icon: "train"
 		},
 		{

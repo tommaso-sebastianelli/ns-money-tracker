@@ -35,14 +35,14 @@ export class TimelineComponent {
 	@Output() timelineChange: EventEmitter<ICalendarSnapshot> = new EventEmitter();
 
 	constructor(// tslint:disable-next-line: align
-		public calendarService: TimelineService,
+		public timelineService: TimelineService,
 		// tslint:disable-next-line: align
 		public page: Page
 	) { }
 
 	public loaded(): void {
 		console.log('timeline loaded.');
-		this.timelineChange.emit(this.calendarService.snapshot);
+		this.timelineChange.emit(this.timelineService.snapshot);
 	}
 
 	public onPan(args: PanGestureEventData): void {
@@ -61,7 +61,10 @@ export class TimelineComponent {
 			(<View>this.next.nativeElement).animate(conf);
 		} else {
 			if (state === 3) {
-				if (Math.abs(deltaX) > triggerDragDistance) {
+				if (args.deltaX < 0 && this.isActualMonth()) {
+					this.resetAnimation(args, 250).subscribe();
+				}
+				else if (Math.abs(deltaX) > triggerDragDistance) {
 					this.changeView(args).subscribe();
 				} else {
 					this.resetAnimation(args, 250).subscribe();
@@ -82,11 +85,11 @@ export class TimelineComponent {
 			.pipe(
 				tap(() => {
 					(args.deltaX < 0) ?
-						this.calendarService.nextSnapshot() :
-						this.calendarService.previousSnapshot()
+						this.timelineService.nextSnapshot() :
+						this.timelineService.previousSnapshot()
 				}),
 				tap(() => {
-					this.timelineChange.emit(this.calendarService.snapshot);
+					this.timelineChange.emit(this.timelineService.snapshot);
 				}),
 				mergeMap(() => {
 					console.log('transactions loaded, resetting views...');
@@ -152,4 +155,9 @@ export class TimelineComponent {
 		});
 	}
 
+	private isActualMonth(): boolean {
+		const now = new Date().valueOf();
+		return now >= this.timelineService.snapshot.now.valueOf() &&
+			now < this.timelineService.snapshot.next.valueOf();
+	}
 }
