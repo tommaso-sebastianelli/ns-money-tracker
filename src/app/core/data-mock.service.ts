@@ -141,7 +141,7 @@ export class DataServiceMock implements IDataProvider {
 			id: 10,
 			name: "Transportations",
 			color: "#ffb74d",
-			icon: "train"
+			icon: "train-ticket"
 		},
 		{
 			id: 11,
