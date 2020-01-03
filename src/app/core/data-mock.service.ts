@@ -15,7 +15,7 @@ export class DataServiceMock implements IDataProvider {
 	private CURRENT_MONTH = new Date().getMonth();
 
 	private randomId() {
-		return Math.floor(Math.random() * 100) + 1;
+		return Math.floor(Math.random() * 10000);
 	}
 
 	private ACTUAL_MONTH_DATA: Array<ITransaction> = [
