@@ -3,6 +3,13 @@
 ## Overview
 A demo android app created with Nativescript and Angular for budgeting.
 
+## Preview
+<p align="center">
+<img src="https://github.com/tommaso-sebastianelli/ns-money-tracker/blob/master/screenshots/preview.gif" width="256">
+</p>
+
+## Screenshots
+
 <p align="center">
 <img src="https://github.com/tommaso-sebastianelli/ns-money-tracker/blob/master/screenshots/screen_1.png" width="256"><a>     </a><img src="https://github.com/tommaso-sebastianelli/ns-money-tracker/blob/master/screenshots/screen_2.png" width="256">
 </p>
